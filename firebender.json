@@ -1,0 +1,6 @@
+{
+  "rules": [
+    "Project is a Kotlin Multiplatform cocktail recipe app targeting Android, iOS, & Desktop.",
+    "Always read and follow the instructions in firebender-memory-bank/firebender-memory-bank.md before starting new work."
+  ]
+}
