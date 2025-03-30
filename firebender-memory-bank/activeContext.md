@@ -19,12 +19,16 @@
 - Successfully implemented and tested UserPreferencesRepository for storing user preferences
 - Added platform-specific Settings providers for Android and JVM
 - Completed all four parts of Phase 2 with Android-focused implementations
+- Started Phase 3.1: Domain Layer use case implementation
+- Defined core recipe management use case interfaces
+- Implemented recipe retrieval and saving use cases with tests
+- Applied TDD approach for all use case implementations
 
 ## Current Focus
-- Moving to Phase 3: Domain Layer TDD
-- Planning use case implementations
-- Preparing for image handling functionality
-- Creating domain layer tests
+- Continuing with Phase 3.1: Use case implementation
+- Implementing CRUD use case implementations with proper tests
+- Building use cases for filtering and sorting functionality
+- Creating reusable test doubles for use case testing
 - iOS/Desktop implementations deferred until core functionality is complete
 
 ## Key Decisions

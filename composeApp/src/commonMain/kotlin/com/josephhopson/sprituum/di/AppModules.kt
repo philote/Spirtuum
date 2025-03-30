@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalSettingsApi::class, ExperimentalSettingsApi::class)
+
 package com.josephhopson.sprituum.di
 
 import com.josephhopson.sprituum.data.repository.RoomRecipeRepository
@@ -5,6 +7,13 @@ import com.josephhopson.sprituum.data.repository.SettingsUserPreferencesReposito
 import com.josephhopson.sprituum.data.source.preference.SettingsProvider
 import com.josephhopson.sprituum.domain.repository.RecipeRepository
 import com.josephhopson.sprituum.domain.repository.UserPreferencesRepository
+import com.josephhopson.sprituum.domain.usecase.GetRecipeByIdUseCase
+import com.josephhopson.sprituum.domain.usecase.GetRecipeByIdUseCaseImpl
+import com.josephhopson.sprituum.domain.usecase.GetRecipesUseCase
+import com.josephhopson.sprituum.domain.usecase.GetRecipesUseCaseImpl
+import com.josephhopson.sprituum.domain.usecase.SaveRecipeUseCase
+import com.josephhopson.sprituum.domain.usecase.SaveRecipeUseCaseImpl
+import com.russhwolf.settings.ExperimentalSettingsApi
 import org.koin.dsl.module
 
 /**
@@ -25,7 +34,10 @@ object AppModules {
      * Domain layer dependencies
      */
     val domainModule = module {
-        // Use cases will be added here
+        // Recipe use cases
+        single<GetRecipesUseCase> { GetRecipesUseCaseImpl(get(), get()) }
+        single<GetRecipeByIdUseCase> { GetRecipeByIdUseCaseImpl(get()) }
+        single<SaveRecipeUseCase> { SaveRecipeUseCaseImpl(get()) }
     }
 
     /**
