@@ -9,16 +9,9 @@ Create a multi-platform Cocktail recipe app which allows users to manage recipes
 - Allow light and dark mode
 - Allow users to take pictures to add to recipes
 - Allow rich text input for about, instructions, & notes
-- Provide user account management
 - Support portrait & landscape orientation
 
 ## Features
-- Login
-- Account Page
-  - change password
-  - delete account
-  - log out
-  - show user info
 - List recipe View
   - Add a recipe
   - Delete a recipe
