@@ -60,6 +60,7 @@ kotlin {
             implementation(libs.coil)
             implementation(libs.coil.network.ktor)
             implementation(libs.multiplatformSettings)
+            implementation(libs.multiplatformSettings.coroutines)
             implementation(libs.kotlinx.datetime)
             implementation(libs.room.runtime)
             implementation(libs.composeIcons.featherIcons)
@@ -70,6 +71,7 @@ kotlin {
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.uiTest)
             implementation(libs.kotlinx.coroutines.test)
+            implementation(libs.multiplatform.settings.test)
         }
 
         androidMain.dependencies {
