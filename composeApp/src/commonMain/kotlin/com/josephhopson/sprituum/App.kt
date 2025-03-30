@@ -19,13 +19,11 @@ import kotlinx.coroutines.isActive
 import org.jetbrains.compose.resources.Font
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
-import org.koin.compose.KoinApplication
+import org.koin.compose.KoinContext
 import spirituum.composeapp.generated.resources.*
 
 @Composable
-internal fun App() = KoinApplication(application = {
-    modules(AppModules.allModules)
-}) {
+internal fun App() = KoinContext {
     AppTheme {
         Column(
             modifier = Modifier
