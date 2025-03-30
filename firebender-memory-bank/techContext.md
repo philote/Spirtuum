@@ -1,7 +1,7 @@
-- Technologies used
-- Development setup
-- Technical constraints
-- Dependencies
+## Technologies used
+## Development setup
+## Technical constraints
+## Dependencies
 
 ## Technologies & Libraries
 - Primary language: Kotlin & Kotlin Multiplatform
@@ -25,3 +25,20 @@
 ## Testing
 - create Unit tests for business logic classes
     - Tests should not share state.
+- Use `androidTest` source set for instrumented tests of Room database
+- Use `androidx.room:room-testing` library for testing migrations
+- Create an in-memory database for testing:
+
+## Room KMP Implementation Notes
+- Room for Kotlin Multiplatform is relatively new (introduced in version 2.7.0-alpha01 on May 1, 2024)
+- Current version (2.7.0-rc03) supports Android, iOS, JVM (Desktop), native Mac and native Linux platforms
+- Key implementation differences from standard Android Room:
+  - Android platform uses traditional database builder with context
+  - Other platforms use SQLite drivers with new Room KMP APIs
+  - KMP version requires DAO functions to be either suspend functions or return Flow
+- Platform-specific initialization:
+  - Android: Use `Room.databaseBuilder(context, AppDatabase::class.java, "db-name").build()`
+  - iOS/Other: Use `Room.databaseBuilder("db-name").setDriver(driver).build()`
+- Resources:
+  - Official documentation: https://developer.android.com/kotlin/multiplatform/room
+  - Migration guide: https://developer.android.com/training/data-storage/room/room-kmp-migration

@@ -119,3 +119,22 @@
 
 ## Current Status
 - Planning phase
+- Phase 1.1 (Project initialization) in progress:
+  - ✓ Layer-first directory structure created (data, domain, ui)
+  - ✓ Initial model classes defined (Recipe, Ingredient, etc.)
+  - ✓ Repository interfaces created
+  - ✓ Test doubles implemented (FakeRecipeRepository)
+  - ✓ Basic test infrastructure set up
+- Phase 2.1 (Recipe data model) in progress:
+  - ✓ Room database entities created
+  - ✓ DAO interfaces defined
+  - ✓ Entity to DTO mapping
+  - ✓ DTO to domain entity mapping
+  - ✓ Repository implementation
+  - ✓ Test coverage for data model
+  - ✓ Updated DAO methods to be KMP compatible (suspend functions or Flow returns)
+  - ✓ Created Android database provider implementation
+  - ✓ Unit tests for entities and mappers
+  - ✓ Unit tests for repository implementation
+  - ✓ Instrumented tests for Room database on Android
+  - ⚠️ iOS/Desktop database initialization still needs to be implemented

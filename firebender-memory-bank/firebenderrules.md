@@ -4,6 +4,7 @@
 - Follow TDD (Test-Driven Development) for all features
 - Write tests first, then implement the necessary code
 - Keep tests focused and isolated
+- Always run a Gradle sync after making updates to Gradle files and fix errors or notify the user before moving on
 
 ## Project Scope
 - No authentication or user management features in current scope
@@ -25,3 +26,7 @@
 - Mock dependencies for isolated testing
 - Test business logic thoroughly
 - Include UI tests for critical user flows
+
+## Room Multiplatform Guidelines
+- Use Room version 2.7.0-rc03 or newer for Kotlin Multiplatform support
+- Android platform should use traditional Room initialization with context:
