@@ -40,11 +40,6 @@
    - Implement recipe CRUD use cases
    - Test filtering and sorting logic
 
-2. **Image handling**
-   - Test image capture and storage functionality
-   - Implement image handling use cases
-   - Test image retrieval and caching
-
 ### Phase 4: UI Layer Testing Setup
 1. **ViewModel testing**
    - Create test harnesses for ViewModels
@@ -77,6 +72,13 @@
    - Test search functionality
    - Implement search UI components
    - Verify filter persistence
+
+5. **Image handling**
+   - Test image capture and storage functionality
+   - Implement image handling use cases
+   - Test image retrieval and caching
+   - Implement image capture UI
+   - Test image display in recipes
 
 ### Phase 6: Material Design & Theming
 1. **Theme implementation**
