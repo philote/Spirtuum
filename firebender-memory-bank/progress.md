@@ -153,11 +153,15 @@
   - ✓ Platform-specific settings providers for Android and JVM
   - ✓ Test coverage added
   - ⚠️ iOS settings implementation deferred
-- Phase 3.1 (Use case implementation): In Progress
+- Phase 3.1 (Use case implementation): ✓ Completed
   - ✓ Defined core recipe use case interfaces
   - ✓ Implemented GetRecipesUseCase with sorting and filtering support
   - ✓ Implemented GetRecipeByIdUseCase
   - ✓ Implemented SaveRecipeUseCase with validation
+  - ✓ Implemented DeleteRecipeUseCase
+  - ✓ Implemented ToggleFavoriteRecipeUseCase
+  - ✓ Implemented SearchRecipesUseCase
+  - ✓ Implemented GetFavoriteRecipesUseCase
   - ✓ Created test doubles for use case testing
-  - ✓ Written comprehensive unit tests
-  - ⚠️ Continuing with remaining use cases for CRUD operations
+  - ✓ Written comprehensive unit tests with proper naming conventions
+  - ✓ Added all use cases to the dependency injection system

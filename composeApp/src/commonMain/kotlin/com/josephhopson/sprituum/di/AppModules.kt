@@ -7,12 +7,20 @@ import com.josephhopson.sprituum.data.repository.SettingsUserPreferencesReposito
 import com.josephhopson.sprituum.data.source.preference.SettingsProvider
 import com.josephhopson.sprituum.domain.repository.RecipeRepository
 import com.josephhopson.sprituum.domain.repository.UserPreferencesRepository
+import com.josephhopson.sprituum.domain.usecase.DeleteRecipeUseCase
+import com.josephhopson.sprituum.domain.usecase.DeleteRecipeUseCaseImpl
+import com.josephhopson.sprituum.domain.usecase.GetFavoriteRecipesUseCase
+import com.josephhopson.sprituum.domain.usecase.GetFavoriteRecipesUseCaseImpl
 import com.josephhopson.sprituum.domain.usecase.GetRecipeByIdUseCase
 import com.josephhopson.sprituum.domain.usecase.GetRecipeByIdUseCaseImpl
 import com.josephhopson.sprituum.domain.usecase.GetRecipesUseCase
 import com.josephhopson.sprituum.domain.usecase.GetRecipesUseCaseImpl
 import com.josephhopson.sprituum.domain.usecase.SaveRecipeUseCase
 import com.josephhopson.sprituum.domain.usecase.SaveRecipeUseCaseImpl
+import com.josephhopson.sprituum.domain.usecase.SearchRecipesUseCase
+import com.josephhopson.sprituum.domain.usecase.SearchRecipesUseCaseImpl
+import com.josephhopson.sprituum.domain.usecase.ToggleFavoriteRecipeUseCase
+import com.josephhopson.sprituum.domain.usecase.ToggleFavoriteRecipeUseCaseImpl
 import com.russhwolf.settings.ExperimentalSettingsApi
 import org.koin.dsl.module
 
@@ -38,6 +46,10 @@ object AppModules {
         single<GetRecipesUseCase> { GetRecipesUseCaseImpl(get(), get()) }
         single<GetRecipeByIdUseCase> { GetRecipeByIdUseCaseImpl(get()) }
         single<SaveRecipeUseCase> { SaveRecipeUseCaseImpl(get()) }
+        single<DeleteRecipeUseCase> { DeleteRecipeUseCaseImpl(get()) }
+        single<ToggleFavoriteRecipeUseCase> { ToggleFavoriteRecipeUseCaseImpl(get()) }
+        single<SearchRecipesUseCase> { SearchRecipesUseCaseImpl(get()) }
+        single<GetFavoriteRecipesUseCase> { GetFavoriteRecipesUseCaseImpl(get()) }
     }
 
     /**
