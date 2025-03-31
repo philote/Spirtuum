@@ -86,6 +86,7 @@ kotlin {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
             implementation(libs.ktor.client.okhttp)
+            implementation(libs.sqlite.bundled)
         }
 
         iosMain.dependencies {
@@ -153,6 +154,7 @@ room {
 }
 
 dependencies {
+    implementation(libs.androidx.sqlite.bundled.jvm)
     with(libs.room.compiler) {
         add("kspAndroid", this)
         add("kspJvm", this)

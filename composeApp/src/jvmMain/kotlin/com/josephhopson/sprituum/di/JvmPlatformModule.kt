@@ -1,9 +1,9 @@
 package com.josephhopson.sprituum.di
 
-import com.josephhopson.sprituum.data.source.local.AppDatabase
 import com.josephhopson.sprituum.data.source.local.DatabaseProvider
 import com.josephhopson.sprituum.data.source.preference.JvmSettingsProvider
 import com.josephhopson.sprituum.data.source.preference.SettingsProvider
+import com.josephhopson.sprituum.data.source.local.JvmDatabaseProvider
 import org.koin.dsl.module
 
 /**
@@ -18,6 +18,8 @@ object JvmPlatformModule {
         // Settings provider
         single<SettingsProvider> { JvmSettingsProvider() }
 
-        // TODO: Implement JVM-specific database provider when implementing desktop target
+        // Database provider
+        single<DatabaseProvider> { JvmDatabaseProvider() }
+        single { get<DatabaseProvider>().provideDatabase() }
     }
 }

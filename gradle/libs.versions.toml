@@ -19,6 +19,8 @@ kotlinx-datetime = "0.6.2"
 room = "2.7.0-rc03"
 ksp = "2.1.20-1.0.31"
 composeIcons = "1.1.1"
+sqlite = "2.5.0-rc03"
+sqliteBundledJvm = "2.5.0-rc03"
 
 [libraries]
 
@@ -55,6 +57,8 @@ kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 composeIcons-featherIcons = { module = "br.com.devsrsouza.compose.icons:feather", version.ref = "composeIcons" }
+sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
+androidx-sqlite-bundled-jvm = { group = "androidx.sqlite", name = "sqlite-bundled-jvm", version.ref = "sqliteBundledJvm" }
 
 [plugins]
 
