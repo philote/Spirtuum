@@ -21,6 +21,13 @@ import com.josephhopson.sprituum.domain.usecase.SearchRecipesUseCase
 import com.josephhopson.sprituum.domain.usecase.SearchRecipesUseCaseImpl
 import com.josephhopson.sprituum.domain.usecase.ToggleFavoriteRecipeUseCase
 import com.josephhopson.sprituum.domain.usecase.ToggleFavoriteRecipeUseCaseImpl
+import com.josephhopson.sprituum.domain.usecase.UpdateFilterOptionUseCase
+import com.josephhopson.sprituum.domain.usecase.UpdateFilterOptionUseCaseImpl
+import com.josephhopson.sprituum.domain.usecase.UpdateSortOptionUseCase
+import com.josephhopson.sprituum.domain.usecase.UpdateSortOptionUseCaseImpl
+import com.josephhopson.sprituum.domain.usecase.UpdateViewModeUseCase
+import com.josephhopson.sprituum.domain.usecase.UpdateViewModeUseCaseImpl
+import com.josephhopson.sprituum.ui.recipelist.RecipeListViewModel
 import com.russhwolf.settings.ExperimentalSettingsApi
 import org.koin.dsl.module
 
@@ -50,13 +57,27 @@ object AppModules {
         single<ToggleFavoriteRecipeUseCase> { ToggleFavoriteRecipeUseCaseImpl(get()) }
         single<SearchRecipesUseCase> { SearchRecipesUseCaseImpl(get()) }
         single<GetFavoriteRecipesUseCase> { GetFavoriteRecipesUseCaseImpl(get()) }
+        single<UpdateSortOptionUseCase> { UpdateSortOptionUseCaseImpl(get()) }
+        single<UpdateFilterOptionUseCase> { UpdateFilterOptionUseCaseImpl(get()) }
+        single<UpdateViewModeUseCase> { UpdateViewModeUseCaseImpl(get()) }
     }
 
     /**
      * UI layer dependencies
      */
     val uiModule = module {
-        // ViewModels will be added here
+        // ViewModels
+        factory {
+            RecipeListViewModel(
+                getRecipesUseCase = get(),
+                searchRecipesUseCase = get(),
+                deleteRecipeUseCase = get(),
+                toggleFavoriteRecipeUseCase = get(),
+                updateSortOptionUseCase = get(),
+                updateFilterOptionUseCase = get(),
+                updateViewModeUseCase = get()
+            )
+        }
     }
 
     /**
