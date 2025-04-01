@@ -56,6 +56,12 @@ flowchart TD
     - Current status
     - Known issues
 
+7. `designGuide.md`
+   - Design guidelines to follow
+   - Design updates as we make decisions
+   - Current status of the Designs
+   - Known issues of the Designs
+
 ### Additional Context
 Create additional files/folders within firebender-memory-bank/ when they help organize:
 - Complex feature documentation
