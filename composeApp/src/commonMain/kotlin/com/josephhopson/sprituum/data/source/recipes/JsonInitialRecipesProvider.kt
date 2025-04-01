@@ -1,5 +1,6 @@
 package com.josephhopson.sprituum.data.source.recipes
 
+import co.touchlab.kermit.Logger
 import com.josephhopson.sprituum.domain.model.Amount
 import com.josephhopson.sprituum.domain.model.Ingredient
 import com.josephhopson.sprituum.domain.model.Instruction
@@ -10,6 +11,8 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
+
+private val logger = Logger.withTag("JsonInitialRecipesProvider")
 
 /**
  * Platform-specific resource loading
@@ -42,14 +45,20 @@ class JsonInitialRecipesProvider : InitialRecipesProvider {
 
         val now = Clock.System.now()
 
-        recipeFiles.mapNotNull { fileName ->
+        logger.d { "Loading ${recipeFiles.size} recipe files" }
+
+        val loadedRecipes = recipeFiles.mapNotNull { fileName ->
             try {
+                logger.d { "Loading recipe from: recipes/$fileName" }
                 loadRecipeFromResource("recipes/$fileName", now)
             } catch (e: Exception) {
-                println("Failed to load recipe from $fileName: ${e.message}")
+                logger.e(e) { "Failed to load recipe from $fileName" }
                 null
             }
         }
+
+        logger.i { "Successfully loaded ${loadedRecipes.size} recipes" }
+        loadedRecipes
     }
 
     /**
@@ -61,7 +70,9 @@ class JsonInitialRecipesProvider : InitialRecipesProvider {
     private suspend fun loadRecipeFromResource(resourcePath: String, timestamp: Instant): Recipe =
         withContext(Dispatchers.Default) {
             val resourceContent = getResourceContent(resourcePath)
+            logger.d { "Recipe content loaded, length: ${resourceContent.length}" }
             val recipeJson = json.decodeFromString<RecipeJson>(resourceContent)
+            logger.d { "Recipe parsed: ${recipeJson.name}" }
 
             Recipe(
                 id = 0, // Will be assigned by the database
@@ -105,7 +116,12 @@ class JsonInitialRecipesProvider : InitialRecipesProvider {
      */
     private suspend fun getResourceContent(path: String): String =
         withContext(Dispatchers.Default) {
-            loadResourceAsString(path)
+            try {
+                loadResourceAsString(path)
+            } catch (e: Exception) {
+                logger.e(e) { "Error loading resource at path $path" }
+                throw e
+            }
         }
 
     /**

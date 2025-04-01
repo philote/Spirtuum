@@ -1,4 +1,6 @@
-@file:OptIn(ExperimentalSettingsApi::class)
+@file:OptIn(ExperimentalSettingsApi::class, ExperimentalSettingsApi::class,
+    ExperimentalSettingsApi::class
+)
 
 package com.josephhopson.sprituum.data.repository
 
@@ -67,8 +69,7 @@ class SettingsUserPreferencesRepository(
     }
     
     override fun isFirstLaunch(): Flow<Boolean> {
-        return settings.getBooleanOrNullFlow(KEY_FIRST_LAUNCH)
-            .map { value: Boolean? -> value ?: DEFAULT_FIRST_LAUNCH }
+        return settings.getBooleanFlow(KEY_FIRST_LAUNCH, DEFAULT_FIRST_LAUNCH)
     }
     
     override suspend fun markFirstLaunchComplete() {

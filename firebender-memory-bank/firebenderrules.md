@@ -20,6 +20,16 @@
 - Follow Kotlin coding conventions
 - Include meaningful docstrings for public APIs
 - Keep functions small and focused
+- Never use println() for logging; always use the Kermit logging library:
+  - Create loggers with appropriate tags: `private val logger = Logger.withTag("ComponentName")`
+  - Use appropriate log levels:
+    - `logger.v { "Verbose message" }` for highly detailed tracing
+    - `logger.d { "Debug message" }` for debugging information
+    - `logger.i { "Info message" }` for important runtime events
+    - `logger.w { "Warning message" }` or `logger.w(exception) { "Warning with exception" }` for warnings
+    - `logger.e { "Error message" }` or `logger.e(exception) { "Error with exception" }` for errors
+  - Use lambda syntax `{ }` for log messages to avoid string concatenation when logging is disabled
+  - Include useful contextual information in log messages
 
 ## Testing Guidelines
 - Unit tests should not share state

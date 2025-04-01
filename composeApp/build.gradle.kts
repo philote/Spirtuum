@@ -110,9 +110,12 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    sourceSets {
+        getByName("main").assets.srcDirs("src/commonMain/resources")
+    }
 }
 
-//https://developer.android.com/develop/ui/compose/testing#setup
 dependencies {
     androidTestImplementation(libs.androidx.uitest.junit4)
     debugImplementation(libs.androidx.uitest.testManifest)
