@@ -34,6 +34,14 @@
   - Set up Main dispatcher in tests with setMain and resetMain
   - Follow camelCase naming for test functions (not backtick-enclosed names)
 
+## Running Tests
+- Run ViewModel tests with: `./gradlew :composeApp:jvmTest --tests "com.josephhopson.sprituum.ui.package.ClassNameTest"`
+- Run multiple tests in a package: `./gradlew :composeApp:jvmTest --tests "com.josephhopson.sprituum.ui.package.*"`
+- Run all tests: `./gradlew :composeApp:allTests` (includes Android and iOS tests which may fail differently)
+- UI Component tests using `runComposeUiTest` currently fail with NullPointerException and need additional configuration
+- Focus testing efforts on ViewModelTests and ScreenTests as they provide the best coverage for business logic
+- The `--tests` flag works only with the jvmTest task, not with Android or iOS test tasks
+
 ## Cross-Platform Guidelines
 - Implement platform-specific dependencies via interface abstractions
 - Register platform-specific implementations in the platform's dependency injection module

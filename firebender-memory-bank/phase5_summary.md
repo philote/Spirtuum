@@ -101,3 +101,73 @@
 - Navigation can be implemented without heavyweight libraries for simple use cases
 - Tests need proper coroutine handling to avoid flakiness
 - UI state management should be predictable and testable
+
+# Phase 5.3: Recipe Creation & Editing Implementation
+
+## Summary
+Phase 5.3 focuses on implementing the recipe creation and editing functionality. This includes creating a comprehensive form for users to input recipe details, managing form state, and handling validation.
+
+## Components Created
+- RecipeEditScreen composable with:
+  - Complete form for creating/editing recipes
+  - Multiple form sections organized by content type
+  - Loading and error states
+  - Proper accessibility annotations
+  - Form validation feedback
+
+- Form components:
+  - BasicInfoSection for name, alt name, glassware, garnish, and toggles
+  - TagsSection for adding/removing tags
+  - IngredientsSection for managing ingredient items with reordering
+  - InstructionsSection for managing instruction steps with reordering
+  - AboutSection and NotesSection for recipe descriptions
+  - ImageSection (placeholder implementation)
+
+- RecipeEditViewModel with functionality for:
+  - Loading existing recipes for editing
+  - Managing form state
+  - Field validation
+  - Handling ingredient and instruction reordering
+  - Saving recipes
+  - Navigation control
+
+## Tests
+- RecipeEditViewModelTest
+  - Tests new recipe initialization
+  - Tests loading existing recipe data
+  - Tests field updates and validation
+  - Tests ingredient and instruction management
+  - Tests error handling
+  - Tests navigation events
+
+- RecipeEditScreenTest
+  - Tests navigation event handling
+  - Tests user input event processing
+  - Tests form interaction events
+
+- Component tests (partially implemented):
+  - BasicInfoSectionTest
+  - TagsSectionTest
+
+## Known Issues
+- UI Component tests using `runComposeUiTest` fail with NullPointerException and need additional configuration
+- Rich text editing functionality for about and notes fields is pending
+- Image capture functionality needs to be implemented
+- Navigation integration between screens is pending
+
+## Next Steps
+- Complete image capture functionality
+- Implement rich text editing for about and notes
+- Fix UI component tests
+- Integrate with navigation system
+- Add deep linking support for editing existing recipes
+
+## Cross-Platform Considerations
+- Image capture needs to be implemented with platform-specific code
+- Current placeholder implementation allows the UI to be previewed while deferring platform-specific code
+
+## Lessons Learned
+- Running tests correctly requires specific Gradle commands (documented in firebenderrules.md)
+- UI tests are more complex and require different setup than ViewModel tests
+- Focus on ViewModel tests provides the best coverage for business logic
+- Breaking down complex forms into smaller component sections improves maintainability
