@@ -7,8 +7,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.josephhopson.sprituum.theme.AppTheme
 import com.josephhopson.sprituum.ui.recipedetail.RecipeDetailScreen
+import com.josephhopson.sprituum.ui.recipeedit.RecipeEditScreen
 import com.josephhopson.sprituum.ui.recipelist.RecipeListScreen
 import org.koin.compose.KoinContext
+import org.koin.compose.koinInject
+import org.koin.core.parameter.parametersOf
 
 /**
  * Main App composable that sets up the application's UI
@@ -22,7 +25,13 @@ internal fun App() = KoinContext {
             is Screen.RecipeList -> {
                 RecipeListScreen(
                     onNavigateToDetail = { recipeId ->
-                        navController.navigateTo(Screen.RecipeDetail(recipeId))
+                        if (recipeId == 0L) {
+                            // Create new recipe
+                            navController.navigateTo(Screen.RecipeEdit(0L))
+                        } else {
+                            // View existing recipe
+                            navController.navigateTo(Screen.RecipeDetail(recipeId))
+                        }
                     }
                 )
             }
@@ -31,11 +40,23 @@ internal fun App() = KoinContext {
                     recipeId = currentScreen.recipeId,
                     onNavigateBack = { navController.navigateBack() },
                     onNavigateToEdit = { editRecipeId ->
-                        // Will be implemented in a later phase
-                        println("Navigate to edit recipe: $editRecipeId")
+                        navController.navigateTo(Screen.RecipeEdit(editRecipeId))
                     },
                     onShareRecipe = { recipe ->
                         shareRecipe(recipe)
+                    }
+                )
+            }
+            is Screen.RecipeEdit -> {
+                RecipeEditScreen(
+                    viewModel = koinInject { parametersOf(currentScreen.recipeId) },
+                    onNavigateBack = { navController.navigateBack() },
+                    onNavigateToDetail = { newRecipeId ->
+                    navController.navigateTo(Screen.RecipeDetail(newRecipeId))
+                    },
+                    onCapturePhoto = {
+                        // Photo capture functionality will be implemented later
+                        println("Photo capture triggered")
                     }
                 )
             }
@@ -78,4 +99,5 @@ class NavController {
 sealed class Screen {
     data object RecipeList : Screen()
     data class RecipeDetail(val recipeId: Long) : Screen()
+    data class RecipeEdit(val recipeId: Long) : Screen()
 }

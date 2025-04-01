@@ -54,3 +54,17 @@
 - Android platform should use traditional Room initialization with context
 - JVM platform should use BundledSQLiteDriver
 - Ensure all DAOs use suspend functions or Flow returns for KMP compatibility
+
+## Compose UI Guidelines
+- Avoid nesting scrollable components (e.g., LazyColumn inside Column with verticalScroll)
+- When using a scrollable container:
+  - Either use a top-level LazyColumn/LazyVerticalGrid for dynamic lists
+  - Or use Column with verticalScroll containing static components
+  - Never combine both in parent-child relationship
+- Use proper height constraints for scrollable content
+- Pay attention to the following error: "Vertically scrollable component was measured with an infinity maximum height constraints"
+  - This usually indicates a nested scrolling issue
+- For complex forms with lists:
+  - Place everything in a single scrollable container
+  - Use regular Column with forEachIndexed instead of LazyColumn for sections containing lists
+- Always test scroll behavior on different screen sizes

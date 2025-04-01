@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -90,11 +88,11 @@ fun IngredientsSection(
                 modifier = Modifier.padding(vertical = 16.dp)
             )
         } else {
-            LazyColumn(
+            Column(
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 modifier = Modifier.fillMaxWidth()
             ) {
-                itemsIndexed(ingredients) { index, ingredient ->
+                ingredients.forEachIndexed { index, ingredient ->
                     IngredientItem(
                         ingredient = ingredient,
                         onUpdateName = { onUpdateName(index, it) },

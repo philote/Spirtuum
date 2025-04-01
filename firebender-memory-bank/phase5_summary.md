@@ -130,6 +130,12 @@ Phase 5.3 focuses on implementing the recipe creation and editing functionality.
   - Handling ingredient and instruction reordering
   - Saving recipes
   - Navigation control
+  
+- Navigation integration:
+  - Added RecipeEdit screen type to the navigation system
+  - Connected "Create Recipe" buttons to RecipeEditScreen
+  - Implemented edit functionality from RecipeDetailScreen
+  - Added proper back navigation and completion navigation
 
 ## Tests
 - RecipeEditViewModelTest
@@ -149,17 +155,26 @@ Phase 5.3 focuses on implementing the recipe creation and editing functionality.
   - BasicInfoSectionTest
   - TagsSectionTest
 
+## Bug Fixes
+- Fixed navigation integration for creating and editing recipes
+  - Identified and fixed missing screen type in navigation system
+  - Added proper ViewModel injection with parameters
+  - Connected navigation between all screens
+
+- Fixed layout issues with nested scrollable components
+  - Identified conflict between LazyColumn and parent Column with verticalScroll
+  - Replaced LazyColumn with regular Column in both IngredientsSection and InstructionsSection
+  - Fixed the IllegalStateException that occurred when adding ingredients or instructions
+
 ## Known Issues
 - UI Component tests using `runComposeUiTest` fail with NullPointerException and need additional configuration
 - Rich text editing functionality for about and notes fields is pending
 - Image capture functionality needs to be implemented
-- Navigation integration between screens is pending
 
 ## Next Steps
 - Complete image capture functionality
 - Implement rich text editing for about and notes
 - Fix UI component tests
-- Integrate with navigation system
 - Add deep linking support for editing existing recipes
 
 ## Cross-Platform Considerations
@@ -167,6 +182,8 @@ Phase 5.3 focuses on implementing the recipe creation and editing functionality.
 - Current placeholder implementation allows the UI to be previewed while deferring platform-specific code
 
 ## Lessons Learned
+- Avoid nesting scrollable containers in Compose to prevent layout conflicts
+- When using a scrollable parent container like Column with verticalScroll, avoid using LazyColumn or LazyGrid as children
 - Running tests correctly requires specific Gradle commands (documented in firebenderrules.md)
 - UI tests are more complex and require different setup than ViewModel tests
 - Focus on ViewModel tests provides the best coverage for business logic

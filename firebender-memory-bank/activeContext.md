@@ -55,13 +55,22 @@
   - Created initial image handling UI (placeholder implementation)
   - Wrote comprehensive tests for RecipeEditViewModel and RecipeEditScreen
   - Recorded proper test running commands in the firebenderrules.md file
+- Fixed critical navigation issues:
+  - Integrated RecipeEditScreen into the app's navigation system
+  - Connected the "Create Recipe" buttons in the RecipeListScreen to navigate to RecipeEditScreen
+  - Implemented navigation from RecipeDetailScreen to RecipeEditScreen for editing
+  - Added proper back navigation handling to return to appropriate screens
+- Fixed layout issues in RecipeEditScreen:
+  - Fixed nested scrollable components issue in IngredientsSection and InstructionsSection
+  - Replaced LazyColumn with regular Column to avoid conflicts with parent verticalScroll
+  - Ensured form components work correctly within the scrollable container
 
 ## Current Focus
-- Completing Phase 5.3: Recipe Creation & Editing
-- Implementing image capture functionality for recipe photos
-- Creating rich text editor integration for about and notes fields
-- Fixing UI component tests that currently fail with NullPointerExceptions
-- Building navigation integration between RecipeEditScreen and other screens
+- Complete remaining Phase 5.3 tasks:
+  - Implementing image capture functionality for recipe photos
+  - Creating rich text editor integration for about and notes fields
+  - Fixing UI component tests that currently fail with NullPointerExceptions
+- Moving towards Phase 5.4: Search & Filtering UI
 
 ## Key Decisions
 - Adopting TDD methodology throughout the project
@@ -77,3 +86,4 @@
 - Using a simple custom navigation system instead of a complex library
 - Implementing platform-specific sharing functionality with a unified interface
 - Using simplified placeholder for image handling in RecipeEditScreen until proper implementation
+- Avoiding nested scrollable components in Compose UI to prevent layout conflicts
