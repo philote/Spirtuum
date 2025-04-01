@@ -28,6 +28,7 @@ import com.josephhopson.sprituum.domain.usecase.UpdateSortOptionUseCaseImpl
 import com.josephhopson.sprituum.domain.usecase.UpdateViewModeUseCase
 import com.josephhopson.sprituum.domain.usecase.UpdateViewModeUseCaseImpl
 import com.josephhopson.sprituum.ui.recipedetail.RecipeDetailViewModel
+import com.josephhopson.sprituum.ui.recipeedit.RecipeEditViewModel
 import com.josephhopson.sprituum.ui.recipelist.RecipeListViewModel
 import com.russhwolf.settings.ExperimentalSettingsApi
 import org.koin.dsl.module
@@ -40,6 +41,7 @@ object AppModules {
     /**
      * Data layer dependencies
      */
+    @OptIn(ExperimentalSettingsApi::class)
     val dataModule = module {
         // Repositories
         single<RecipeRepository> { RoomRecipeRepository(database = get()) }
@@ -87,6 +89,15 @@ object AppModules {
                 getRecipeByIdUseCase = get(),
                 toggleFavoriteRecipeUseCase = get(),
                 deleteRecipeUseCase = get()
+            )
+        }
+
+        // RecipeEditViewModel with recipeId parameter
+        factory { params ->
+            RecipeEditViewModel(
+                recipeId = params.get(),
+                getRecipeByIdUseCase = get(),
+                saveRecipeUseCase = get()
             )
         }
     }
