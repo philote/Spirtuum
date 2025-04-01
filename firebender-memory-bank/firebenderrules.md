@@ -68,3 +68,22 @@
   - Place everything in a single scrollable container
   - Use regular Column with forEachIndexed instead of LazyColumn for sections containing lists
 - Always test scroll behavior on different screen sizes
+
+## Material Icons Usage
+- For basic icons, import from `androidx.compose.material.icons.Icons`
+- Use `Icons.Filled.[IconName]` for filled icons (with proper capitalization)
+- For directional icons that should respect RTL languages, use `Icons.AutoMirrored.Filled.[IconName]` namespace
+  - Example: `Icons.AutoMirrored.Filled.Sort`, `Icons.AutoMirrored.Filled.List`
+- For extended icon set, ensure `compose.materialIconsExtended` dependency is added to the project
+- Icon namespaces are case-sensitive: use `Filled` not `filled`
+- Common icons available include:
+  - Basic icons: Add, Close, Check, Search, Dashboard
+  - AutoMirrored icons: List, Sort
+  - Extended icons: FilterList, ViewModule
+
+## Material 3 Component Usage
+- When using Material 3 experimental components like DockedSearchBar, be aware of API changes
+- The DockedSearchBar API has changed to prefer a new `inputField` parameter approach over direct parameters
+- When encountering compatibility issues with newer APIs, use `@Suppress("DEPRECATION")` and fall back to the older API
+- Monitor Material 3 updates as experimental APIs may change between releases
+- Material 3 components often have `*Defaults` companion objects that provide preset values and helper functions

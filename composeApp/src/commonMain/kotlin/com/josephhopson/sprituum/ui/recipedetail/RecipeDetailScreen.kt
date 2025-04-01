@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Favorite
@@ -26,7 +25,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -37,7 +35,6 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.josephhopson.sprituum.domain.model.Recipe
 import org.koin.compose.koinInject
@@ -77,14 +74,51 @@ fun RecipeDetailScreen(
 
     Scaffold(
         topBar = {
-            RecipeDetailTopBar(
-                recipeName = uiState.recipe?.name ?: "",
-                isFavorite = uiState.recipe?.favorite ?: false,
+            com.josephhopson.sprituum.ui.common.CompactHeader(
+                title = uiState.recipe?.name ?: "",
                 onNavigateBack = { viewModel.onEvent(RecipeDetailUiEvent.NavigateBack) },
-                onToggleFavorite = { viewModel.onEvent(RecipeDetailUiEvent.ToggleFavorite) },
-                onEditRecipe = { viewModel.onEvent(RecipeDetailUiEvent.EditRecipe) },
-                onDeleteRecipe = { viewModel.onEvent(RecipeDetailUiEvent.DeleteRecipe) },
-                onShareRecipe = { viewModel.onEvent(RecipeDetailUiEvent.ShareRecipe) }
+                actions = {
+                    // Favorite button
+                    val isFavorite = uiState.recipe?.favorite ?: false
+                    IconButton(
+                        onClick = { viewModel.onEvent(RecipeDetailUiEvent.ToggleFavorite) },
+                        modifier = Modifier.semantics {
+                            contentDescription = if (isFavorite) "Remove from favorites" else "Add to favorites"
+                        }
+                    ) {
+                        Icon(
+                            imageVector = if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                            contentDescription = null
+                        )
+                    }
+                    IconButton(
+                        onClick = { viewModel.onEvent(RecipeDetailUiEvent.ShareRecipe) },
+                        modifier = Modifier.semantics { contentDescription = "Share recipe" }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Share,
+                            contentDescription = null
+                        )
+                    }
+                    IconButton(
+                        onClick = { viewModel.onEvent(RecipeDetailUiEvent.EditRecipe) },
+                        modifier = Modifier.semantics { contentDescription = "Edit recipe" }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Edit,
+                            contentDescription = null
+                        )
+                    }
+                    IconButton(
+                        onClick = { viewModel.onEvent(RecipeDetailUiEvent.DeleteRecipe) },
+                        modifier = Modifier.semantics { contentDescription = "Delete recipe" }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Delete,
+                            contentDescription = null
+                        )
+                    }
+                }
             )
         }
     ) { paddingValues ->
@@ -112,82 +146,6 @@ fun RecipeDetailScreen(
             }
         }
     }
-}
-
-/**
- * Top app bar for the recipe detail screen
- */
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun RecipeDetailTopBar(
-    recipeName: String,
-    isFavorite: Boolean,
-    onNavigateBack: () -> Unit,
-    onToggleFavorite: () -> Unit,
-    onEditRecipe: () -> Unit,
-    onDeleteRecipe: () -> Unit,
-    onShareRecipe: () -> Unit
-) {
-    TopAppBar(
-        title = {
-            Text(
-                text = recipeName,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-        },
-        navigationIcon = {
-            IconButton(
-                onClick = onNavigateBack,
-                modifier = Modifier.semantics { contentDescription = "Navigate back" }
-            ) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = null
-                )
-            }
-        },
-        actions = {
-            IconButton(
-                onClick = onToggleFavorite,
-                modifier = Modifier.semantics {
-                    contentDescription = if (isFavorite) "Remove from favorites" else "Add to favorites"
-                }
-            ) {
-                Icon(
-                    imageVector = if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
-                    contentDescription = null
-                )
-            }
-            IconButton(
-                onClick = onShareRecipe,
-                modifier = Modifier.semantics { contentDescription = "Share recipe" }
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Share,
-                    contentDescription = null
-                )
-            }
-            IconButton(
-                onClick = onEditRecipe,
-                modifier = Modifier.semantics { contentDescription = "Edit recipe" }
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Edit,
-                    contentDescription = null
-                )
-            }
-            IconButton(
-                onClick = onDeleteRecipe,
-                modifier = Modifier.semantics { contentDescription = "Delete recipe" }
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Delete,
-                    contentDescription = null
-                )
-            }
-        }
-    )
 }
 
 /**

@@ -64,6 +64,8 @@ kotlin {
             implementation(libs.kotlinx.datetime)
             implementation(libs.room.runtime)
             implementation(libs.composeIcons.featherIcons)
+            api(compose.materialIconsExtended)
+
         }
 
         commonTest.dependencies {

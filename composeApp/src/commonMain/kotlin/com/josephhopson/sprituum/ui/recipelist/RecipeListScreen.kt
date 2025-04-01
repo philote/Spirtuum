@@ -1,6 +1,5 @@
 package com.josephhopson.sprituum.ui.recipelist
 
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,23 +16,31 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.List
+import androidx.compose.material.icons.automirrored.filled.Sort
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Dashboard
+import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DockedSearchBar
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SearchBarDefaults
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -43,7 +50,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -52,11 +58,9 @@ import com.josephhopson.sprituum.domain.model.Recipe
 import com.josephhopson.sprituum.domain.repository.UserPreferencesRepository.FilterOption
 import com.josephhopson.sprituum.domain.repository.UserPreferencesRepository.SortOption
 import com.josephhopson.sprituum.domain.repository.UserPreferencesRepository.ViewMode
-import com.josephhopson.sprituum.ui.components.FilterChip
 import com.josephhopson.sprituum.ui.components.RecipeCard
 import org.koin.compose.koinInject
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RecipeListScreen(
     viewModel: RecipeListViewModel = koinInject(),
@@ -74,58 +78,67 @@ fun RecipeListScreen(
 
     Scaffold(
         topBar = {
-            RecipeListTopBar(
-                onCreateRecipeClick = { viewModel.onEvent(RecipeListUiEvent.CreateNewRecipe) },
+            CompactRecipeListHeader(
                 searchQuery = uiState.searchQuery,
                 onSearchQueryChange = { viewModel.onEvent(RecipeListUiEvent.UpdateSearchQuery(it)) },
-                onClearSearch = { viewModel.onEvent(RecipeListUiEvent.ClearSearch) }
-            )
-        },
-        modifier = Modifier.fillMaxSize()
-    ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-        ) {
-            RecipeListFilters(
+                onClearSearch = { viewModel.onEvent(RecipeListUiEvent.ClearSearch) },
                 sortOption = uiState.sortOption,
                 filterOption = uiState.filterOption,
                 viewMode = uiState.viewMode,
                 onSortOptionChanged = { viewModel.onEvent(RecipeListUiEvent.UpdateSortOption(it)) },
                 onFilterOptionChanged = { viewModel.onEvent(RecipeListUiEvent.UpdateFilterOption(it)) },
-                onViewModeChanged = { viewModel.onEvent(RecipeListUiEvent.UpdateViewMode(it)) },
-                modifier = Modifier.fillMaxWidth()
+                onViewModeChanged = { viewModel.onEvent(RecipeListUiEvent.UpdateViewMode(it)) }
             )
-
-            if (uiState.isLoading) {
-                Box(modifier = Modifier.fillMaxSize()) {
-                    CircularProgressIndicator(
-                        modifier = Modifier
-                            .align(Alignment.Center)
-                            .testTag("loading_indicator")
-                    )
-                }
-            } else if (uiState.error != null) {
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = { viewModel.onEvent(RecipeListUiEvent.CreateNewRecipe) },
+                modifier = Modifier.semantics { contentDescription = "Add new recipe" }
+            ) {
+                Icon(Icons.Filled.Add, contentDescription = null)
+            }
+        },
+        modifier = Modifier.fillMaxSize()
+    ) { paddingValues ->
+        if (uiState.isLoading) {
+            Box(modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)) {
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .testTag("loading_indicator")
+                )
+            }
+        } else if (uiState.error != null) {
+            Box(modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)) {
                 ErrorMessage(error = uiState.error!!)
-            } else if (uiState.recipes.isEmpty()) {
+            }
+        } else if (uiState.recipes.isEmpty()) {
+            Box(modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)) {
                 EmptyRecipesList(
                     searchActive = uiState.searchQuery.isNotEmpty(),
                     onCreateRecipe = { viewModel.onEvent(RecipeListUiEvent.CreateNewRecipe) }
                 )
-            } else {
-                when (uiState.viewMode) {
-                    ViewMode.LIST -> RecipeListView(
-                        recipes = uiState.recipes,
-                        onRecipeClick = { viewModel.onEvent(RecipeListUiEvent.SelectRecipe(it)) },
-                        onToggleFavorite = { viewModel.onEvent(RecipeListUiEvent.ToggleFavorite(it)) }
-                    )
-                    ViewMode.GRID -> RecipeGridView(
-                        recipes = uiState.recipes,
-                        onRecipeClick = { viewModel.onEvent(RecipeListUiEvent.SelectRecipe(it)) },
-                        onToggleFavorite = { viewModel.onEvent(RecipeListUiEvent.ToggleFavorite(it)) }
-                    )
-                }
+            }
+        } else {
+            when (uiState.viewMode) {
+                ViewMode.LIST -> RecipeListView(
+                    recipes = uiState.recipes,
+                    onRecipeClick = { viewModel.onEvent(RecipeListUiEvent.SelectRecipe(it)) },
+                    onToggleFavorite = { viewModel.onEvent(RecipeListUiEvent.ToggleFavorite(it)) },
+                    contentPadding = paddingValues
+                )
+                ViewMode.GRID -> RecipeGridView(
+                    recipes = uiState.recipes,
+                    onRecipeClick = { viewModel.onEvent(RecipeListUiEvent.SelectRecipe(it)) },
+                    onToggleFavorite = { viewModel.onEvent(RecipeListUiEvent.ToggleFavorite(it)) },
+                    contentPadding = paddingValues
+                )
             }
         }
     }
@@ -133,188 +146,340 @@ fun RecipeListScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun RecipeListTopBar(
-    onCreateRecipeClick: () -> Unit,
+private fun CompactRecipeListHeader(
     searchQuery: String,
     onSearchQueryChange: (String) -> Unit,
-    onClearSearch: () -> Unit
-) {
-    var showSearch by remember { mutableStateOf(searchQuery.isNotEmpty()) }
-
-    TopAppBar(
-        title = {
-            if (showSearch) {
-                TextField(
-                    value = searchQuery,
-                    onValueChange = onSearchQueryChange,
-                    placeholder = { Text("Search recipes...") },
-                    singleLine = true,
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = TextFieldDefaults.colors(
-                        focusedContainerColor = MaterialTheme.colorScheme.surface,
-                        unfocusedContainerColor = MaterialTheme.colorScheme.surface,
-                        disabledContainerColor = MaterialTheme.colorScheme.surface,
-                        focusedIndicatorColor = MaterialTheme.colorScheme.primary,
-                        unfocusedIndicatorColor = Color.Transparent
-                    )
-                )
-            } else {
-                Text("Recipes")
-            }
-        },
-        actions = {
-            if (showSearch) {
-                IconButton(
-                    onClick = {
-                        onClearSearch()
-                        showSearch = false
-                    },
-                    modifier = Modifier.semantics { contentDescription = "Clear search" }
-                ) {
-                    Icon(Icons.Default.Close, contentDescription = null)
-                }
-            } else {
-                IconButton(
-                    onClick = { showSearch = true },
-                    modifier = Modifier.semantics { contentDescription = "Search recipes" }
-                ) {
-                    Icon(Icons.Default.Search, contentDescription = null)
-                }
-            }
-            IconButton(
-                onClick = onCreateRecipeClick,
-                modifier = Modifier.semantics { contentDescription = "Add new recipe" }
-            ) {
-                Icon(Icons.Default.Add, contentDescription = null)
-            }
-        }
-    )
-}
-
-@Composable
-private fun RecipeListFilters(
+    onClearSearch: () -> Unit,
     sortOption: SortOption,
     filterOption: FilterOption,
     viewMode: ViewMode,
     onSortOptionChanged: (SortOption) -> Unit,
     onFilterOptionChanged: (FilterOption) -> Unit,
-    onViewModeChanged: (ViewMode) -> Unit,
-    modifier: Modifier = Modifier
+    onViewModeChanged: (ViewMode) -> Unit
 ) {
-    Column(modifier = modifier.padding(horizontal = 16.dp)) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 8.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(
-                "Sort & Filter",
-                style = MaterialTheme.typography.titleMedium
+    var showSearch by remember { mutableStateOf(searchQuery.isNotEmpty()) }
+    var showSortMenu by remember { mutableStateOf(false) }
+    var showFilterMenu by remember { mutableStateOf(false) }
+    
+    Surface(
+        tonalElevation = 3.dp,
+        color = MaterialTheme.colorScheme.surface
+    ) {
+        if (showSearch) {
+            @Suppress("DEPRECATION")
+            DockedSearchBar(
+                query = searchQuery,
+                onQueryChange = onSearchQueryChange,
+                onSearch = { onSearchQueryChange(it) },
+                active = false,
+                onActiveChange = { },
+                placeholder = { Text("Search recipes...") },
+                leadingIcon = {
+                    IconButton(onClick = {
+                        onClearSearch()
+                        showSearch = false
+                    }) {
+                        Icon(Icons.Filled.Close, contentDescription = "Close search")
+                    }
+                },
+                trailingIcon = {
+                    Row {
+                        // Sort button with dropdown menu
+                        Box {
+                            IconButton(
+                                onClick = { showSortMenu = true },
+                                modifier = Modifier.semantics { contentDescription = "Sort recipes" }
+                            ) {
+                                Icon(Icons.AutoMirrored.Filled.Sort, contentDescription = null)
+                            }
+
+                            SortDropdownMenu(
+                                expanded = showSortMenu,
+                                onDismissRequest = { showSortMenu = false },
+                                sortOption = sortOption,
+                                onSortOptionChanged = {
+                                    onSortOptionChanged(it)
+                                    showSortMenu = false
+                                }
+                            )
+                        }
+
+                        // Filter button with dropdown menu
+                        Box {
+                            IconButton(
+                                onClick = { showFilterMenu = true },
+                                modifier = Modifier.semantics { contentDescription = "Filter recipes" }
+                            ) {
+                                Icon(Icons.Filled.FilterList, contentDescription = null)
+                            }
+
+                            FilterDropdownMenu(
+                                expanded = showFilterMenu,
+                                onDismissRequest = { showFilterMenu = false },
+                                filterOption = filterOption,
+                                onFilterOptionChanged = {
+                                    onFilterOptionChanged(it)
+                                    showFilterMenu = false
+                                }
+                            )
+                        }
+
+                        // View mode toggle
+                        IconButton(
+                            onClick = {
+                                onViewModeChanged(
+                                    if (viewMode == ViewMode.LIST) ViewMode.GRID else ViewMode.LIST
+                                )
+                            },
+                            modifier = Modifier.semantics {
+                                contentDescription = if (viewMode == ViewMode.LIST)
+                                    "Switch to grid view"
+                                else
+                                    "Switch to list view"
+                            }
+                        ) {
+                            Icon(
+                                imageVector = if (viewMode == ViewMode.LIST)
+                                    Icons.Filled.Dashboard
+                                else
+                                    Icons.AutoMirrored.Filled.List,
+                                contentDescription = null
+                            )
+                        }
+                    }
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                colors = SearchBarDefaults.colors(
+                    containerColor = MaterialTheme.colorScheme.surface
+                )
+            ) { }
+        } else {
+            TopAppBar(
+                title = { Text("Recipes") },
+                actions = {
+                    // Search button
+                    IconButton(
+                        onClick = { showSearch = true },
+                        modifier = Modifier.semantics { contentDescription = "Search recipes" }
+                    ) {
+                        Icon(Icons.Filled.Search, contentDescription = null)
+                    }
+                    
+                    // Sort button with dropdown menu
+                    Box {
+                        IconButton(
+                            onClick = { showSortMenu = true },
+                            modifier = Modifier.semantics { contentDescription = "Sort recipes" }
+                        ) {
+                            Icon(Icons.AutoMirrored.Filled.Sort, contentDescription = null)
+                        }
+                        
+                        SortDropdownMenu(
+                            expanded = showSortMenu,
+                            onDismissRequest = { showSortMenu = false },
+                            sortOption = sortOption,
+                            onSortOptionChanged = { 
+                                onSortOptionChanged(it)
+                                showSortMenu = false
+                            }
+                        )
+                    }
+                    
+                    // Filter button with dropdown menu
+                    Box {
+                        IconButton(
+                            onClick = { showFilterMenu = true },
+                            modifier = Modifier.semantics { contentDescription = "Filter recipes" }
+                        ) {
+                            Icon(Icons.Filled.FilterList, contentDescription = null)
+                        }
+                        
+                        FilterDropdownMenu(
+                            expanded = showFilterMenu,
+                            onDismissRequest = { showFilterMenu = false },
+                            filterOption = filterOption,
+                            onFilterOptionChanged = { 
+                                onFilterOptionChanged(it)
+                                showFilterMenu = false
+                            }
+                        )
+                    }
+                    
+                    // View mode toggle
+                    IconButton(
+                        onClick = { 
+                            onViewModeChanged(
+                                if (viewMode == ViewMode.LIST) ViewMode.GRID else ViewMode.LIST
+                            )
+                        },
+                        modifier = Modifier.semantics { 
+                            contentDescription = if (viewMode == ViewMode.LIST) 
+                                "Switch to grid view" 
+                            else 
+                                "Switch to list view"
+                        }
+                    ) {
+                        Icon(
+                            imageVector = if (viewMode == ViewMode.LIST)
+                                Icons.Filled.Dashboard
+                            else
+                                Icons.AutoMirrored.Filled.List,
+                            contentDescription = null
+                        )
+                    }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.surface
+                )
             )
+        }
+    }
+}
 
-            Row {
-                Button(
-                    onClick = { onViewModeChanged(ViewMode.LIST) },
-                    modifier = Modifier.semantics { contentDescription = "Switch to list view" },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = if (viewMode == ViewMode.LIST)
-                        MaterialTheme.colorScheme.primary
-                        else
-                            MaterialTheme.colorScheme.surfaceVariant
+@Composable
+private fun SortDropdownMenu(
+    expanded: Boolean,
+    onDismissRequest: () -> Unit,
+    sortOption: SortOption,
+    onSortOptionChanged: (SortOption) -> Unit
+) {
+    DropdownMenu(
+        expanded = expanded,
+        onDismissRequest = onDismissRequest
+    ) {
+        DropdownMenuItem(
+            text = { Text("Name (A-Z)") },
+            onClick = { onSortOptionChanged(SortOption.NAME_ASC) },
+            trailingIcon = {
+                if (sortOption == SortOption.NAME_ASC) {
+                    Icon(
+                        imageVector = Icons.Filled.Check,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary
                     )
-                ) {
-                    Text("List")
-                }
-
-                Spacer(modifier = Modifier.width(8.dp))
-
-                Button(
-                    onClick = { onViewModeChanged(ViewMode.GRID) },
-                    modifier = Modifier.semantics { contentDescription = "Switch to grid view" },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = if (viewMode == ViewMode.GRID)
-                        MaterialTheme.colorScheme.primary
-                        else
-                            MaterialTheme.colorScheme.surfaceVariant
-                    )
-                ) {
-                    Text("Grid")
                 }
             }
-        }
-
-        Text(
-            "Sort by:",
-            style = MaterialTheme.typography.bodySmall,
-            modifier = Modifier.padding(bottom = 4.dp)
         )
-
-        Row(
-            modifier = Modifier
-                .horizontalScroll(rememberScrollState())
-                .padding(bottom = 8.dp)
-        ) {
-            FilterChip(
-                text = "Name (A-Z)",
-                selected = sortOption == SortOption.NAME_ASC,
-                onClick = { onSortOptionChanged(SortOption.NAME_ASC) }
-            )
-            FilterChip(
-                text = "Name (Z-A)",
-                selected = sortOption == SortOption.NAME_DESC,
-                onClick = { onSortOptionChanged(SortOption.NAME_DESC) }
-            )
-            FilterChip(
-                text = "Newest",
-                selected = sortOption == SortOption.DATE_CREATED_NEWEST,
-                onClick = { onSortOptionChanged(SortOption.DATE_CREATED_NEWEST) }
-            )
-            FilterChip(
-                text = "Oldest",
-                selected = sortOption == SortOption.DATE_CREATED_OLDEST,
-                onClick = { onSortOptionChanged(SortOption.DATE_CREATED_OLDEST) }
-            )
-            FilterChip(
-                text = "Last updated",
-                selected = sortOption == SortOption.DATE_UPDATED_NEWEST,
-                onClick = { onSortOptionChanged(SortOption.DATE_UPDATED_NEWEST) }
-            )
-        }
-
-        Text(
-            "Filter by:",
-            style = MaterialTheme.typography.bodySmall,
-            modifier = Modifier.padding(bottom = 4.dp)
+        DropdownMenuItem(
+            text = { Text("Name (Z-A)") },
+            onClick = { onSortOptionChanged(SortOption.NAME_DESC) },
+            trailingIcon = {
+                if (sortOption == SortOption.NAME_DESC) {
+                    Icon(
+                        imageVector = Icons.Filled.Check,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                }
+            }
         )
+        DropdownMenuItem(
+            text = { Text("Newest") },
+            onClick = { onSortOptionChanged(SortOption.DATE_CREATED_NEWEST) },
+            trailingIcon = {
+                if (sortOption == SortOption.DATE_CREATED_NEWEST) {
+                    Icon(
+                        imageVector = Icons.Filled.Check,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                }
+            }
+        )
+        DropdownMenuItem(
+            text = { Text("Oldest") },
+            onClick = { onSortOptionChanged(SortOption.DATE_CREATED_OLDEST) },
+            trailingIcon = {
+                if (sortOption == SortOption.DATE_CREATED_OLDEST) {
+                    Icon(
+                        imageVector = Icons.Filled.Check,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                }
+            }
+        )
+        DropdownMenuItem(
+            text = { Text("Last updated") },
+            onClick = { onSortOptionChanged(SortOption.DATE_UPDATED_NEWEST) },
+            trailingIcon = {
+                if (sortOption == SortOption.DATE_UPDATED_NEWEST) {
+                    Icon(
+                        imageVector = Icons.Filled.Check,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                }
+            }
+        )
+    }
+}
 
-        Row(
-            modifier = Modifier
-                .horizontalScroll(rememberScrollState())
-                .padding(bottom = 8.dp)
-        ) {
-            FilterChip(
-                text = "All",
-                selected = filterOption == FilterOption.ALL,
-                onClick = { onFilterOptionChanged(FilterOption.ALL) }
-            )
-            FilterChip(
-                text = "Favorites",
-                selected = filterOption == FilterOption.FAVORITES,
-                onClick = { onFilterOptionChanged(FilterOption.FAVORITES) }
-            )
-            FilterChip(
-                text = "Alcoholic",
-                selected = filterOption == FilterOption.ALCOHOLIC,
-                onClick = { onFilterOptionChanged(FilterOption.ALCOHOLIC) }
-            )
-            FilterChip(
-                text = "Non-alcoholic",
-                selected = filterOption == FilterOption.NON_ALCOHOLIC,
-                onClick = { onFilterOptionChanged(FilterOption.NON_ALCOHOLIC) }
-            )
-        }
+@Composable
+private fun FilterDropdownMenu(
+    expanded: Boolean,
+    onDismissRequest: () -> Unit,
+    filterOption: FilterOption,
+    onFilterOptionChanged: (FilterOption) -> Unit
+) {
+    DropdownMenu(
+        expanded = expanded,
+        onDismissRequest = onDismissRequest
+    ) {
+        DropdownMenuItem(
+            text = { Text("All") },
+            onClick = { onFilterOptionChanged(FilterOption.ALL) },
+            trailingIcon = {
+                if (filterOption == FilterOption.ALL) {
+                    Icon(
+                        imageVector = Icons.Filled.Check,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                }
+            }
+        )
+        DropdownMenuItem(
+            text = { Text("Favorites") },
+            onClick = { onFilterOptionChanged(FilterOption.FAVORITES) },
+            trailingIcon = {
+                if (filterOption == FilterOption.FAVORITES) {
+                    Icon(
+                        imageVector = Icons.Filled.Check,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                }
+            }
+        )
+        DropdownMenuItem(
+            text = { Text("Alcoholic") },
+            onClick = { onFilterOptionChanged(FilterOption.ALCOHOLIC) },
+            trailingIcon = {
+                if (filterOption == FilterOption.ALCOHOLIC) {
+                    Icon(
+                        imageVector = Icons.Filled.Check,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                }
+            }
+        )
+        DropdownMenuItem(
+            text = { Text("Non-alcoholic") },
+            onClick = { onFilterOptionChanged(FilterOption.NON_ALCOHOLIC) },
+            trailingIcon = {
+                if (filterOption == FilterOption.NON_ALCOHOLIC) {
+                    Icon(
+                        imageVector = Icons.Filled.Check,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                }
+            }
+        )
     }
 }
 
@@ -322,10 +487,16 @@ private fun RecipeListFilters(
 private fun RecipeListView(
     recipes: List<Recipe>,
     onRecipeClick: (Long) -> Unit,
-    onToggleFavorite: (Long) -> Unit
+    onToggleFavorite: (Long) -> Unit,
+    contentPadding: PaddingValues
 ) {
     LazyColumn(
-        contentPadding = PaddingValues(16.dp),
+        contentPadding = PaddingValues(
+            top = contentPadding.calculateTopPadding(),
+            start = 16.dp,
+            end = 16.dp,
+            bottom = contentPadding.calculateBottomPadding() + 16.dp
+        ),
         verticalArrangement = Arrangement.spacedBy(16.dp),
         modifier = Modifier.fillMaxSize()
     ) {
@@ -343,11 +514,17 @@ private fun RecipeListView(
 private fun RecipeGridView(
     recipes: List<Recipe>,
     onRecipeClick: (Long) -> Unit,
-    onToggleFavorite: (Long) -> Unit
+    onToggleFavorite: (Long) -> Unit,
+    contentPadding: PaddingValues
 ) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = 300.dp),
-        contentPadding = PaddingValues(16.dp),
+        contentPadding = PaddingValues(
+            top = contentPadding.calculateTopPadding(),
+            start = 16.dp,
+            end = 16.dp,
+            bottom = contentPadding.calculateBottomPadding() + 16.dp
+        ),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
         modifier = Modifier.fillMaxSize()
@@ -427,7 +604,7 @@ private fun EmptyRecipesList(
                 onClick = onCreateRecipe,
                 modifier = Modifier.semantics { contentDescription = "Create first recipe" }
             ) {
-                Icon(Icons.Default.Add, contentDescription = null)
+                Icon(Icons.Filled.Add, contentDescription = null)
                 Spacer(modifier = Modifier.width(8.dp))
                 Text("Create Recipe")
             }
