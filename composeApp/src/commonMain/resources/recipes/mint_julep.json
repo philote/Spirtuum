@@ -1,0 +1,41 @@
+{
+  "name": "Mint Julep",
+  "altName": "Kentucky Mint Julep",
+  "favorite": false,
+  "about": "The Mint Julep has been associated with Kentucky and the Kentucky Derby since the 1930s, but its origins date back to the late 18th century in the American South. It was originally prescribed as a medicine for stomach ailments.",
+  "tags": ["classic", "whiskey", "bourbon", "built", "ancestral"],
+  "instructions": [
+    "Place mint leaves and simple syrup in a julep cup or rocks glass",
+    "Gently muddle to release the mint oils",
+    "Add crushed ice to fill half the glass",
+    "Add bourbon",
+    "Stir until the glass is frosted on the outside",
+    "Add more crushed ice to form a mound on top",
+    "Garnish with a generous mint bouquet and dust with powdered sugar if desired"
+  ],
+  "notes": "A traditional julep should be served in a silver or pewter cup, which frosts over when filled with crushed ice. The outside of the cup is meant to be held, creating a refreshing experience during hot weather.",
+  "alcoholic": true,
+  "glassware": "Julep Cup or Rocks Glass",
+  "garnish": "Mint Bouquet",
+  "ingredients": [
+    {
+      "name": "Kentucky Bourbon",
+      "amount": 2.5,
+      "unit": "oz"
+    },
+    {
+      "name": "Fresh Mint Leaves",
+      "amount": 8.0,
+      "unit": "leaves"
+    },
+    {
+      "name": "Simple Syrup",
+      "amount": 0.5,
+      "unit": "oz"
+    },
+    {
+      "name": "Crushed Ice",
+      "notes": "Enough to fill the glass"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "name": "Negroni",
+  "altName": "Count Negroni's Cocktail",
+  "favorite": false,
+  "about": "Legend has it that the Negroni was invented in Florence, Italy in 1919 when Count Camillo Negroni asked the bartender to strengthen his Americano by replacing the soda water with gin.",
+  "tags": ["classic", "gin", "bitter", "aperitif", "stirred", "equal parts", "ancestral"],
+  "instructions": [
+    "Add all ingredients to a mixing glass with ice",
+    "Stir until well-chilled, about 30 seconds",
+    "Strain into a rocks glass over fresh ice",
+    "Garnish with an orange peel"
+  ],
+  "notes": "A well-made Negroni is perfectly balanced between sweet, bitter, and strong. Some modern variations substitute the gin with other spirits like bourbon (Boulevardier) or mezcal (Smoky Negroni).",
+  "alcoholic": true,
+  "glassware": "Old Fashioned Glass",
+  "garnish": "Orange Peel",
+  "ingredients": [
+    {
+      "name": "London Dry Gin",
+      "amount": 1.0,
+      "unit": "oz"
+    },
+    {
+      "name": "Sweet Vermouth",
+      "amount": 1.0,
+      "unit": "oz"
+    },
+    {
+      "name": "Campari",
+      "amount": 1.0,
+      "unit": "oz"
+    }
+  ]
+}

@@ -64,6 +64,15 @@
   - Fixed nested scrollable components issue in IngredientsSection and InstructionsSection
   - Replaced LazyColumn with regular Column to avoid conflicts with parent verticalScroll
   - Ensured form components work correctly within the scrollable container
+- Implemented starter recipes system:
+  - Created InitialRecipesProvider interface and JsonInitialRecipesProvider implementation
+  - Designed and added 10 high-quality ancestral cocktail recipes in JSON format
+  - Implemented expect/actual pattern for platform-specific resource loading
+  - Created InitializeAppDataUseCase to populate the database on first launch
+  - Enhanced UserPreferencesRepository to track first launch status
+  - Integrated recipe initialization at app startup
+  - Added comprehensive tests for the initialization system
+  - Documented expect/actual pattern in techContext.md
 
 ## Current Focus
 - Complete remaining Phase 5.3 tasks:

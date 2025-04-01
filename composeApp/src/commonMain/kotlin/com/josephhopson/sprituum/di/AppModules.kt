@@ -5,6 +5,8 @@ package com.josephhopson.sprituum.di
 import com.josephhopson.sprituum.data.repository.RoomRecipeRepository
 import com.josephhopson.sprituum.data.repository.SettingsUserPreferencesRepository
 import com.josephhopson.sprituum.data.source.preference.SettingsProvider
+import com.josephhopson.sprituum.data.source.recipes.InitialRecipesProvider
+import com.josephhopson.sprituum.data.source.recipes.JsonInitialRecipesProvider
 import com.josephhopson.sprituum.domain.repository.RecipeRepository
 import com.josephhopson.sprituum.domain.repository.UserPreferencesRepository
 import com.josephhopson.sprituum.domain.usecase.DeleteRecipeUseCase
@@ -15,6 +17,8 @@ import com.josephhopson.sprituum.domain.usecase.GetRecipeByIdUseCase
 import com.josephhopson.sprituum.domain.usecase.GetRecipeByIdUseCaseImpl
 import com.josephhopson.sprituum.domain.usecase.GetRecipesUseCase
 import com.josephhopson.sprituum.domain.usecase.GetRecipesUseCaseImpl
+import com.josephhopson.sprituum.domain.usecase.InitializeAppDataUseCase
+import com.josephhopson.sprituum.domain.usecase.InitializeAppDataUseCaseImpl
 import com.josephhopson.sprituum.domain.usecase.SaveRecipeUseCase
 import com.josephhopson.sprituum.domain.usecase.SaveRecipeUseCaseImpl
 import com.josephhopson.sprituum.domain.usecase.SearchRecipesUseCase
@@ -46,6 +50,9 @@ object AppModules {
         // Repositories
         single<RecipeRepository> { RoomRecipeRepository(database = get()) }
         single<UserPreferencesRepository> { SettingsUserPreferencesRepository(settings = get<SettingsProvider>().provideSettings()) }
+
+        // Providers
+        single<InitialRecipesProvider> { JsonInitialRecipesProvider() }
     }
 
     /**
@@ -63,6 +70,7 @@ object AppModules {
         single<UpdateSortOptionUseCase> { UpdateSortOptionUseCaseImpl(get()) }
         single<UpdateFilterOptionUseCase> { UpdateFilterOptionUseCaseImpl(get()) }
         single<UpdateViewModeUseCase> { UpdateViewModeUseCaseImpl(get()) }
+        single<InitializeAppDataUseCase> { InitializeAppDataUseCaseImpl(get(), get(), get()) }
     }
 
     /**

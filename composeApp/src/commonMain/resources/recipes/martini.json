@@ -1,0 +1,30 @@
+{
+  "name": "Martini",
+  "altName": "Classic Gin Martini",
+  "favorite": false,
+  "about": "The Martini is arguably the most iconic cocktail in the world. It evolved from the Martinez cocktail in the late 19th century and has been a symbol of sophistication ever since.",
+  "tags": ["classic", "gin", "stirred", "ancestral"],
+  "instructions": [
+    "Chill a martini glass in the freezer or fill with ice and water",
+    "Add gin and dry vermouth to a mixing glass with ice",
+    "Stir for about 30 seconds until well-chilled",
+    "Empty the martini glass and strain the cocktail into it",
+    "Express lemon peel over the drink or garnish with olives"
+  ],
+  "notes": "The ratio of gin to vermouth is highly personal. This is a classic 5:1 ratio, but some prefer it drier (more gin), while others prefer more vermouth. The 'perfect' Martini uses equal parts dry and sweet vermouth.",
+  "alcoholic": true,
+  "glassware": "Martini Glass",
+  "garnish": "Lemon Twist or Olives",
+  "ingredients": [
+    {
+      "name": "London Dry Gin",
+      "amount": 2.5,
+      "unit": "oz"
+    },
+    {
+      "name": "Dry Vermouth",
+      "amount": 0.5,
+      "unit": "oz"
+    }
+  ]
+}

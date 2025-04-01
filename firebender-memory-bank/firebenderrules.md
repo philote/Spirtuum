@@ -48,6 +48,12 @@
 - Use expect/actual for platform-specific code
 - Platform-specific code should be isolated in dedicated files
 - Navigation can be implemented without heavyweight libraries for simple use cases
+- When implementing platform-specific resources:
+  - Place common resources in commonMain/resources directory
+  - Define expect functions in commonMain
+  - Implement actual functions in each platform's source set
+  - Follow the same package structure across all platforms
+  - Use appropriate dispatchers for resource loading (IO for JVM/Android, Default for iOS)
 
 ## Room Multiplatform Guidelines
 - Use Room version 2.7.0-rc03 or newer for Kotlin Multiplatform support
@@ -68,3 +74,18 @@
   - Place everything in a single scrollable container
   - Use regular Column with forEachIndexed instead of LazyColumn for sections containing lists
 - Always test scroll behavior on different screen sizes
+
+## Recipe Guidelines
+- When creating new recipes, follow the established JSON format
+- Place recipe JSON files in commonMain/resources/recipes directory
+- Required fields for recipes:
+  - name (String)
+  - createdAt (Timestamp)
+  - updatedAt (Timestamp)
+- Include these fields for better user experience:
+  - about (String): Background info about the cocktail
+  - instructions (List of String): Step-by-step preparation
+  - ingredients (List of Ingredient objects): Components with amounts and units
+  - tags (List of String): For categorization and filtering
+- For ancestral cocktails, include the "ancestral" tag
+- High-quality recipes should include historical context and expert tips in the "about" and "notes" fields

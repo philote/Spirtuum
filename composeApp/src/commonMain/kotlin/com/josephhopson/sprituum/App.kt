@@ -5,6 +5,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.LaunchedEffect
+import com.josephhopson.sprituum.domain.usecase.InitializeAppDataUseCase
 import com.josephhopson.sprituum.theme.AppTheme
 import com.josephhopson.sprituum.ui.recipedetail.RecipeDetailScreen
 import com.josephhopson.sprituum.ui.recipeedit.RecipeEditScreen
@@ -20,6 +22,12 @@ import org.koin.core.parameter.parametersOf
 internal fun App() = KoinContext {
     AppTheme {
         val navController = rememberNavController()
+
+        // Initialize app data on first launch
+        val initializeAppDataUseCase = koinInject<InitializeAppDataUseCase>()
+        LaunchedEffect(Unit) {
+            initializeAppDataUseCase.initializeAppData()
+        }
 
         when (val currentScreen = navController.currentScreen) {
             is Screen.RecipeList -> {

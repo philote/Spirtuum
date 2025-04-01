@@ -22,6 +22,19 @@
 - Include concise summaries and avoid redundancy with surrounding context
 - Use examples and explanations for parameters, return values, and exceptions where helpful
 
+## Kotlin Multiplatform expect/actual Pattern
+- Use `expect` declarations in commonMain for platform-specific functionality
+- Provide corresponding `actual` implementations in each platform's source set (androidMain, jvmMain, iosMain)
+- All platforms the app targets must have an actual implementation
+- Common errors:
+  - "Expected function has no actual declaration in module" - Missing implementation in one or more platforms
+  - "Modifier 'expect' is not applicable to 'member function'" - expect can't be used on class members; move it outside
+- Platform-specific implementations must be in the correct source set directory structure:
+  - Android: composeApp/src/androidMain/kotlin/[package path]
+  - JVM: composeApp/src/jvmMain/kotlin/[package path]
+  - iOS: composeApp/src/iosMain/kotlin/[package path]
+- Always maintain identical package structure across platforms for expect/actual declarations
+
 ## Testing
 - create Unit tests for business logic classes
     - Tests should not share state.
