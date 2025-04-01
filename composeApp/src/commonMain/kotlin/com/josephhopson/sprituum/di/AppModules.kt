@@ -27,6 +27,7 @@ import com.josephhopson.sprituum.domain.usecase.UpdateSortOptionUseCase
 import com.josephhopson.sprituum.domain.usecase.UpdateSortOptionUseCaseImpl
 import com.josephhopson.sprituum.domain.usecase.UpdateViewModeUseCase
 import com.josephhopson.sprituum.domain.usecase.UpdateViewModeUseCaseImpl
+import com.josephhopson.sprituum.ui.recipedetail.RecipeDetailViewModel
 import com.josephhopson.sprituum.ui.recipelist.RecipeListViewModel
 import com.russhwolf.settings.ExperimentalSettingsApi
 import org.koin.dsl.module
@@ -76,6 +77,16 @@ object AppModules {
                 updateSortOptionUseCase = get(),
                 updateFilterOptionUseCase = get(),
                 updateViewModeUseCase = get()
+            )
+        }
+
+        // RecipeDetailViewModel with recipeId parameter
+        factory { params ->
+            RecipeDetailViewModel(
+                recipeId = params.get(),
+                getRecipeByIdUseCase = get(),
+                toggleFavoriteRecipeUseCase = get(),
+                deleteRecipeUseCase = get()
             )
         }
     }

@@ -14,6 +14,9 @@ class SpirituumApp : Application() {
     
     override fun onCreate() {
         super.onCreate()
+        // Initialize the platform context
+        setApplicationContext(this)
+        // Initialize Koin
         initKoin()
     }
     

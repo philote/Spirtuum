@@ -28,11 +28,18 @@
 - Include UI tests for critical user flows
 - Platform-specific tests should be in their respective source sets (androidTest, etc.)
 - Common tests should use platform-agnostic approaches when possible
+- Use proper coroutine testing techniques:
+  - TestScope with UnconfinedTestDispatcher for controlling coroutine execution
+  - Use advanceUntilIdle() to ensure all coroutines complete before assertions
+  - Set up Main dispatcher in tests with setMain and resetMain
+  - Follow camelCase naming for test functions (not backtick-enclosed names)
 
 ## Cross-Platform Guidelines
 - Implement platform-specific dependencies via interface abstractions
 - Register platform-specific implementations in the platform's dependency injection module
 - Use expect/actual for platform-specific code
+- Platform-specific code should be isolated in dedicated files
+- Navigation can be implemented without heavyweight libraries for simple use cases
 
 ## Room Multiplatform Guidelines
 - Use Room version 2.7.0-rc03 or newer for Kotlin Multiplatform support

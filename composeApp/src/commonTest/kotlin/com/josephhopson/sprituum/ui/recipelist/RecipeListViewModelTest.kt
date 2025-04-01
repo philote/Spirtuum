@@ -11,26 +11,27 @@ import com.josephhopson.sprituum.domain.usecase.ToggleFavoriteRecipeUseCase
 import com.josephhopson.sprituum.domain.usecase.UpdateFilterOptionUseCase
 import com.josephhopson.sprituum.domain.usecase.UpdateSortOptionUseCase
 import com.josephhopson.sprituum.domain.usecase.UpdateViewModeUseCase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
 import kotlinx.datetime.Clock
+import kotlin.test.AfterTest
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-/**
- * Tests for RecipeListViewModel
- *
- * These tests use a simplified approach without coroutines setup to make them platform-compatible
- *
- * NOTE: Some tests are currently failing and would need further improvements to the test approach.
- * The issue is likely related to coroutines and flow collection handling, which is challenging to
- * test in a platform-agnostic way.
- *
- * For now, we're relying on RecipeListScreenTest for core functionality coverage.
- */
+@ExperimentalCoroutinesApi
 class RecipeListViewModelTest {
+    private val testDispatcher = UnconfinedTestDispatcher()
+    private val testScope = TestScope(testDispatcher)
 
     // Test data
     private val now = Clock.System.now()
@@ -71,8 +72,18 @@ class RecipeListViewModelTest {
         )
     )
 
+    @BeforeTest
+    fun setUp() {
+        Dispatchers.setMain(testDispatcher)
+    }
+
+    @AfterTest
+    fun tearDown() {
+        Dispatchers.resetMain()
+    }
+
     @Test
-    fun testNavigationEventFlow() = runTest {
+    fun testNavigationEventFlow() = testScope.runTest {
         // Setup
         val getRecipesUseCase = object : GetRecipesUseCase {
             override fun invoke(): Flow<List<Recipe>> = flowOf(emptyList())
@@ -98,9 +109,9 @@ class RecipeListViewModelTest {
         viewModel.consumeNavigationEvent()
         assertEquals(null, viewModel.navigationEvent.value)
     }
-    
+
     @Test
-    fun testToggleFavoriteEvent() = runTest {
+    fun testToggleFavoriteEvent() = testScope.runTest {
         // Setup
         val getRecipesUseCase = object : GetRecipesUseCase {
             override fun invoke(): Flow<List<Recipe>> = flowOf(emptyList())
@@ -118,13 +129,16 @@ class RecipeListViewModelTest {
 
         // Act
         viewModel.onEvent(RecipeListUiEvent.ToggleFavorite(1L))
-        
+
+        // Need to complete all coroutines since this is a suspend function
+        advanceUntilIdle()
+
         // Assert
         assertTrue(toggleFavoriteUseCase.toggledIds.contains(1L))
     }
 
     @Test
-    fun testDeleteRecipeEvent() = runTest {
+    fun testDeleteRecipeEvent() = testScope.runTest {
         // Setup
         val getRecipesUseCase = object : GetRecipesUseCase {
             override fun invoke(): Flow<List<Recipe>> = flowOf(emptyList())
@@ -142,13 +156,16 @@ class RecipeListViewModelTest {
 
         // Act
         viewModel.onEvent(RecipeListUiEvent.DeleteRecipe(2L))
-        
+
+        // Need to complete all coroutines since this is a suspend function
+        advanceUntilIdle()
+
         // Assert
         assertTrue(deleteRecipeUseCase.deletedIds.contains(2L))
     }
 
     @Test
-    fun testUpdateSortOptionEvent() = runTest {
+    fun testUpdateSortOptionEvent() = testScope.runTest {
         // Setup
         val getRecipesUseCase = object : GetRecipesUseCase {
             override fun invoke(): Flow<List<Recipe>> = flowOf(emptyList())
@@ -166,13 +183,16 @@ class RecipeListViewModelTest {
 
         // Act
         viewModel.onEvent(RecipeListUiEvent.UpdateSortOption(SortOption.NAME_DESC))
-        
+
+        // Need to complete all coroutines since this is a suspend function
+        advanceUntilIdle()
+
         // Assert
         assertEquals(SortOption.NAME_DESC, updateSortOptionUseCase.lastSortOption)
     }
 
     @Test
-    fun testUpdateFilterOptionEvent() = runTest {
+    fun testUpdateFilterOptionEvent() = testScope.runTest {
         // Setup
         val getRecipesUseCase = object : GetRecipesUseCase {
             override fun invoke(): Flow<List<Recipe>> = flowOf(emptyList())
@@ -190,13 +210,16 @@ class RecipeListViewModelTest {
 
         // Act
         viewModel.onEvent(RecipeListUiEvent.UpdateFilterOption(FilterOption.FAVORITES))
-        
+
+        // Need to complete all coroutines since this is a suspend function
+        advanceUntilIdle()
+
         // Assert
         assertEquals(FilterOption.FAVORITES, updateFilterOptionUseCase.lastFilterOption)
     }
 
     @Test
-    fun testUpdateViewModeEvent() = runTest {
+    fun testUpdateViewModeEvent() = testScope.runTest {
         // Setup
         val getRecipesUseCase = object : GetRecipesUseCase {
             override fun invoke(): Flow<List<Recipe>> = flowOf(emptyList())
@@ -214,13 +237,16 @@ class RecipeListViewModelTest {
 
         // Act
         viewModel.onEvent(RecipeListUiEvent.UpdateViewMode(ViewMode.GRID))
-        
+
+        // Need to complete all coroutines since this is a suspend function
+        advanceUntilIdle()
+
         // Assert
         assertEquals(ViewMode.GRID, updateViewModeUseCase.lastViewMode)
     }
 
     @Test
-    fun testSearchQueryEvent() = runTest {
+    fun testSearchQueryEvent() = testScope.runTest {
         // Setup
         val getRecipesUseCase = object : GetRecipesUseCase {
             override fun invoke(): Flow<List<Recipe>> = flowOf(emptyList())
@@ -235,14 +261,16 @@ class RecipeListViewModelTest {
             FakeUpdateFilterOptionUseCase(),
             FakeUpdateViewModeUseCase()
         )
-        
+
         // Act
         viewModel.onEvent(RecipeListUiEvent.UpdateSearchQuery("mojito"))
-        
+
+        // Need to complete all coroutines
+        advanceUntilIdle()
+
         // Assert
         assertEquals("mojito", searchRecipesUseCase.lastQuery)
     }
-
 }
 
 // Test implementations
