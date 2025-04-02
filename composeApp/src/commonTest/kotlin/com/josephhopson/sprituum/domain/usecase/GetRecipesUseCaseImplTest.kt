@@ -148,6 +148,19 @@ class GetRecipesUseCaseImplTest {
         assertEquals(1L, recipes[2].id) // Updated at 1000
     }
 
+    @Test
+    fun test_is_first_launch() = runTest {
+        val isFirstLaunch = mockUserPreferencesRepository.isFirstLaunch().first()
+        assertEquals(true, isFirstLaunch)
+    }
+
+    @Test
+    fun test_mark_first_launch_complete() = runTest {
+        mockUserPreferencesRepository.markFirstLaunchComplete()
+        val isFirstLaunch = mockUserPreferencesRepository.isFirstLaunch().first()
+        assertEquals(false, isFirstLaunch)
+    }
+
     /**
      * Fake RecipeRepository for testing
      */
@@ -197,6 +210,7 @@ class GetRecipesUseCaseImplTest {
         private var sortOption = SortOption.NAME_ASC
         private var filterOption = FilterOption.ALL
         private var viewMode = UserPreferencesRepository.ViewMode.LIST
+        private var isFirstLaunch = true
 
         override fun getSortOption() = flowOf(sortOption)
 
@@ -214,6 +228,12 @@ class GetRecipesUseCaseImplTest {
 
         override suspend fun setViewMode(viewMode: UserPreferencesRepository.ViewMode) {
             this.viewMode = viewMode
+        }
+
+        override fun isFirstLaunch() = flowOf(isFirstLaunch)
+
+        override suspend fun markFirstLaunchComplete() {
+            isFirstLaunch = false
         }
     }
 }

@@ -1,0 +1,34 @@
+{
+  "name": "Manhattan",
+  "altName": "Classic Manhattan",
+  "favorite": false,
+  "about": "The Manhattan was the first cocktail to use vermouth as a modifier. Legend has it that the drink was invented at the Manhattan Club in New York City in the early 1870s for a banquet hosted by Winston Churchill's mother.",
+  "tags": ["classic", "whiskey", "stirred", "ancestral"],
+  "instructions": [
+    "Add all ingredients to a mixing glass with ice",
+    "Stir for 30 seconds until well chilled",
+    "Strain into a chilled coupe glass",
+    "Garnish with a brandied cherry"
+  ],
+  "notes": "For the best results, use a high-quality sweet vermouth and a bourbon or rye with a proof of at least 100.",
+  "alcoholic": true,
+  "glassware": "Coupe",
+  "garnish": "Brandied Cherry",
+  "ingredients": [
+    {
+      "name": "Rye Whiskey",
+      "amount": 2.0,
+      "unit": "oz"
+    },
+    {
+      "name": "Sweet Vermouth",
+      "amount": 1.0,
+      "unit": "oz"
+    },
+    {
+      "name": "Angostura Bitters",
+      "amount": 2.0,
+      "unit": "dashes"
+    }
+  ]
+}

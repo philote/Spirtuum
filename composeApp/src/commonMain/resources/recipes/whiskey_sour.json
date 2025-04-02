@@ -1,0 +1,47 @@
+{
+  "name": "Whiskey Sour",
+  "altName": "Classic Whiskey Sour",
+  "favorite": false,
+  "about": "The Whiskey Sour is a classic cocktail dating back to the 1870s, though sailors in the British Navy were drinking similar concoctions long before. It's a perfect balance of sweet, sour, and whiskey.",
+  "tags": ["classic", "whiskey", "shaken", "sour", "ancestral"],
+  "instructions": [
+    "Add whiskey, lemon juice, and simple syrup to a shaker with ice",
+    "Shake vigorously until well-chilled, about 15 seconds",
+    "Strain into a rocks glass over fresh ice",
+    "If using egg white: dry shake all ingredients first, then add ice and shake again",
+    "Garnish with a lemon wheel and optional cherry"
+  ],
+  "notes": "The traditional recipe includes egg white for a silky texture and frothy top, though it's often omitted in modern versions. This is known as a 'Boston Sour' when made with egg white.",
+  "alcoholic": true,
+  "glassware": "Rocks Glass",
+  "garnish": "Lemon Wheel and Cherry",
+  "ingredients": [
+    {
+      "name": "Bourbon or Rye Whiskey",
+      "amount": 2.0,
+      "unit": "oz"
+    },
+    {
+      "name": "Fresh Lemon Juice",
+      "amount": 0.75,
+      "unit": "oz"
+    },
+    {
+      "name": "Simple Syrup",
+      "amount": 0.75,
+      "unit": "oz"
+    },
+    {
+      "name": "Egg White",
+      "amount": 0.5,
+      "unit": "oz",
+      "notes": "Optional"
+    },
+    {
+      "name": "Angostura Bitters",
+      "amount": 2.0,
+      "unit": "dashes",
+      "notes": "For garnish on egg white"
+    }
+  ]
+}

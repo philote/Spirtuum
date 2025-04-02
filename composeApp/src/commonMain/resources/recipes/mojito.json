@@ -1,0 +1,52 @@
+{
+  "name": "Mojito",
+  "altName": "Cuban Mojito",
+  "favorite": false,
+  "about": "The Mojito originated in Cuba and is one of the country's oldest cocktails. It's believed to have been developed in the 16th century when Sir Francis Drake's crew used a primitive form of the drink to combat scurvy and dysentery.",
+  "tags": ["classic", "rum", "built", "highball", "ancestral"],
+  "instructions": [
+    "Add mint leaves and simple syrup to a highball glass",
+    "Gently muddle to release the mint oils without shredding the leaves",
+    "Squeeze lime juice into the glass and add the spent lime shells",
+    "Fill the glass halfway with crushed ice",
+    "Add rum and stir gently to combine",
+    "Top with club soda",
+    "Add more crushed ice to form a mound",
+    "Garnish with a mint sprig and lime wheel"
+  ],
+  "notes": "The key to a great Mojito is fresh ingredients and gentle muddling. Over-muddling the mint will make it bitter. In Cuba, the mint variety used is 'yerba buena', which has a slightly different flavor than common spearmint.",
+  "alcoholic": true,
+  "glassware": "Highball Glass",
+  "garnish": "Mint Sprig and Lime Wheel",
+  "ingredients": [
+    {
+      "name": "White Rum",
+      "amount": 2.0,
+      "unit": "oz"
+    },
+    {
+      "name": "Fresh Lime Juice",
+      "amount": 0.75,
+      "unit": "oz"
+    },
+    {
+      "name": "Simple Syrup",
+      "amount": 0.5,
+      "unit": "oz"
+    },
+    {
+      "name": "Fresh Mint Leaves",
+      "amount": 8.0,
+      "unit": "leaves"
+    },
+    {
+      "name": "Club Soda",
+      "amount": 2.0,
+      "unit": "oz"
+    },
+    {
+      "name": "Crushed Ice",
+      "notes": "Enough to fill the glass"
+    }
+  ]
+}

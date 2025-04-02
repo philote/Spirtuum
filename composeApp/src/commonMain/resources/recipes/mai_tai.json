@@ -1,0 +1,51 @@
+{
+  "name": "Mai Tai",
+  "altName": "Trader Vic's Mai Tai",
+  "favorite": false,
+  "about": "The Mai Tai was created by Victor J. Bergeron (aka Trader Vic) in 1944 for friends visiting from Tahiti. When they tasted it, one exclaimed 'Mai Tai Roa Ae!' which means 'Out of this world! The best!' in Tahitian.",
+  "tags": ["classic", "tiki", "rum", "shaken", "ancestral"],
+  "instructions": [
+    "Add all ingredients except the dark rum to a shaker with crushed ice",
+    "Shake vigorously until well-chilled",
+    "Pour unstrained into a double old fashioned glass",
+    "Float the dark rum on top",
+    "Garnish with a mint sprig and spent lime shell"
+  ],
+  "notes": "The original Mai Tai used a now-extinct 17-year-old J. Wray & Nephew rum. Modern versions use a blend of aged Jamaican rum and rhum agricole to approximate that flavor profile.",
+  "alcoholic": true,
+  "glassware": "Double Old Fashioned Glass",
+  "garnish": "Mint Sprig and Spent Lime Shell",
+  "ingredients": [
+    {
+      "name": "Aged Jamaican Rum",
+      "amount": 1.0,
+      "unit": "oz"
+    },
+    {
+      "name": "Rhum Agricole",
+      "amount": 1.0,
+      "unit": "oz"
+    },
+    {
+      "name": "Orange Curaçao",
+      "amount": 0.5,
+      "unit": "oz"
+    },
+    {
+      "name": "Orgeat Syrup",
+      "amount": 0.5,
+      "unit": "oz"
+    },
+    {
+      "name": "Fresh Lime Juice",
+      "amount": 1.0,
+      "unit": "oz"
+    },
+    {
+      "name": "Dark Rum",
+      "amount": 0.5,
+      "unit": "oz",
+      "notes": "For floating on top"
+    }
+  ]
+}

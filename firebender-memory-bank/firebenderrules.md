@@ -20,6 +20,16 @@
 - Follow Kotlin coding conventions
 - Include meaningful docstrings for public APIs
 - Keep functions small and focused
+- Never use println() for logging; always use the Kermit logging library:
+  - Create loggers with appropriate tags: `private val logger = Logger.withTag("ComponentName")`
+  - Use appropriate log levels:
+    - `logger.v { "Verbose message" }` for highly detailed tracing
+    - `logger.d { "Debug message" }` for debugging information
+    - `logger.i { "Info message" }` for important runtime events
+    - `logger.w { "Warning message" }` or `logger.w(exception) { "Warning with exception" }` for warnings
+    - `logger.e { "Error message" }` or `logger.e(exception) { "Error with exception" }` for errors
+  - Use lambda syntax `{ }` for log messages to avoid string concatenation when logging is disabled
+  - Include useful contextual information in log messages
 
 ## Testing Guidelines
 - Unit tests should not share state
@@ -48,6 +58,12 @@
 - Use expect/actual for platform-specific code
 - Platform-specific code should be isolated in dedicated files
 - Navigation can be implemented without heavyweight libraries for simple use cases
+- When implementing platform-specific resources:
+  - Place common resources in commonMain/resources directory
+  - Define expect functions in commonMain
+  - Implement actual functions in each platform's source set
+  - Follow the same package structure across all platforms
+  - Use appropriate dispatchers for resource loading (IO for JVM/Android, Default for iOS)
 
 ## Room Multiplatform Guidelines
 - Use Room version 2.7.0-rc03 or newer for Kotlin Multiplatform support
@@ -87,3 +103,18 @@
 - When encountering compatibility issues with newer APIs, use `@Suppress("DEPRECATION")` and fall back to the older API
 - Monitor Material 3 updates as experimental APIs may change between releases
 - Material 3 components often have `*Defaults` companion objects that provide preset values and helper functions
+
+## Recipe Guidelines
+- When creating new recipes, follow the established JSON format
+- Place recipe JSON files in commonMain/resources/recipes directory
+- Required fields for recipes:
+  - name (String)
+  - createdAt (Timestamp)
+  - updatedAt (Timestamp)
+- Include these fields for better user experience:
+  - about (String): Background info about the cocktail
+  - instructions (List of String): Step-by-step preparation
+  - ingredients (List of Ingredient objects): Components with amounts and units
+  - tags (List of String): For categorization and filtering
+- For ancestral cocktails, include the "ancestral" tag
+- High-quality recipes should include historical context and expert tips in the "about" and "notes" fields

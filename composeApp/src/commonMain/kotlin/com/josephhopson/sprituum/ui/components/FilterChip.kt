@@ -1,24 +1,27 @@
 package com.josephhopson.sprituum.ui.components
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ElevatedFilterChip
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.unit.dp
 
 /**
- * A custom filter chip that shows a filter option
+ * Filter chip component for the recipe app
  *
- * @param text The text to display in the chip
+ * @param text Text to display in the chip
  * @param selected Whether the chip is selected
- * @param onClick Callback for when the chip is clicked
- * @param modifier The modifier for the chip
+ * @param onClick Callback when the chip is clicked
+ * @param modifier Modifier for the chip
  */
 @Composable
 fun FilterChip(
@@ -27,23 +30,52 @@ fun FilterChip(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val stateDescription = if (selected) "Selected" else "Not selected"
-    val chipContentDescription = "$text filter. $stateDescription."
+    val backgroundColor by animateColorAsState(
+        targetValue = if (selected)
+            MaterialTheme.colorScheme.primary
+        else
+            MaterialTheme.colorScheme.surface,
+        label = "Chip background color"
+    )
 
-    ElevatedFilterChip(
+    val textColor by animateColorAsState(
+        targetValue = if (selected)
+            MaterialTheme.colorScheme.onPrimary
+        else
+            MaterialTheme.colorScheme.primary,
+        label = "Chip text color"
+    )
+
+    FilterChip(
         selected = selected,
         onClick = onClick,
-        label = { Text(text) },
+        label = {
+            Text(
+                text = text,
+                style = MaterialTheme.typography.labelLarge
+            )
+        },
         modifier = modifier
             .padding(end = 8.dp)
             .semantics {
-                contentDescription = chipContentDescription
-                // State description helps screen readers understand the current state
-                this.stateDescription = stateDescription
+                contentDescription = if (selected) {
+                    "Selected: $text"
+                } else {
+                    "Filter by: $text"
+                }
             },
-        colors = FilterChipDefaults.elevatedFilterChipColors(
-            selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
-            selectedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer
+        shape = RoundedCornerShape(8.dp),
+        border = if (!selected) {
+            BorderStroke(
+                width = 1.dp,
+                color = MaterialTheme.colorScheme.primary
+            )
+        } else null,
+        colors = FilterChipDefaults.filterChipColors(
+            containerColor = backgroundColor,
+            labelColor = textColor,
+            selectedContainerColor = backgroundColor,
+            selectedLabelColor = textColor
         )
     )
 }

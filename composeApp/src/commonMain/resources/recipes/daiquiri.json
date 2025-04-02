@@ -1,0 +1,34 @@
+{
+  "name": "Daiquiri",
+  "altName": "Classic Daiquiri",
+  "favorite": false,
+  "about": "The Daiquiri originated in Cuba in the late 1800s and was named after a beach near Santiago. It's a simple but perfectly balanced combination of rum, lime, and sugar.",
+  "tags": ["classic", "rum", "shaken", "sour", "ancestral"],
+  "instructions": [
+    "Add all ingredients to a shaker with ice",
+    "Shake vigorously until well-chilled, about 15 seconds",
+    "Double strain into a chilled coupe glass",
+    "Garnish with a lime wheel if desired"
+  ],
+  "notes": "The Daiquiri is one of the great test drinks for bartenders - its simplicity means there's nowhere to hide poor technique. Use a quality white rum and fresh lime juice for best results.",
+  "alcoholic": true,
+  "glassware": "Coupe",
+  "garnish": "Lime Wheel (optional)",
+  "ingredients": [
+    {
+      "name": "White Rum",
+      "amount": 2.0,
+      "unit": "oz"
+    },
+    {
+      "name": "Fresh Lime Juice",
+      "amount": 1.0,
+      "unit": "oz"
+    },
+    {
+      "name": "Simple Syrup",
+      "amount": 0.75,
+      "unit": "oz"
+    }
+  ]
+}

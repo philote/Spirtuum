@@ -74,4 +74,15 @@ interface UserPreferencesRepository {
      * @param viewMode The view mode to set
      */
     suspend fun setViewMode(viewMode: ViewMode)
+
+    /**
+     * Checks if this is the first launch of the app
+     * @return Flow of boolean indicating if this is the first launch
+     */
+    fun isFirstLaunch(): Flow<Boolean>
+
+    /**
+     * Marks the app as having been launched before
+     */
+    suspend fun markFirstLaunchComplete()
 }

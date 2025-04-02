@@ -1,0 +1,48 @@
+{
+  "name": "Sazerac",
+  "altName": "New Orleans Sazerac",
+  "favorite": false,
+  "about": "The Sazerac is one of America's oldest cocktails, originating in New Orleans in the 1850s. It was originally made with cognac, but rye whiskey became the standard spirit after the phylloxera epidemic devastated French vineyards.",
+  "tags": ["classic", "whiskey", "stirred", "ancestral", "absinthe"],
+  "instructions": [
+    "Chill an old fashioned glass",
+    "Fill a mixing glass with ice",
+    "Add rye whiskey, sugar, and both Peychaud's and Angostura bitters",
+    "Stir until well-chilled, about 30 seconds",
+    "Rinse the chilled glass with absinthe, discarding excess",
+    "Strain the cocktail into the absinthe-rinsed glass",
+    "Express lemon peel over the surface and discard peel"
+  ],
+  "notes": "The Sazerac is traditionally served without ice in an absinthe-rinsed glass. The combination of Peychaud's bitters and absinthe gives it its distinctive flavor profile.",
+  "alcoholic": true,
+  "glassware": "Old Fashioned Glass (no ice)",
+  "garnish": "Lemon Peel (expressed and discarded)",
+  "ingredients": [
+    {
+      "name": "Rye Whiskey",
+      "amount": 2.0,
+      "unit": "oz"
+    },
+    {
+      "name": "Sugar Cube",
+      "amount": 1.0,
+      "unit": "cube"
+    },
+    {
+      "name": "Peychaud's Bitters",
+      "amount": 3.0,
+      "unit": "dashes"
+    },
+    {
+      "name": "Angostura Bitters",
+      "amount": 1.0,
+      "unit": "dash"
+    },
+    {
+      "name": "Absinthe",
+      "amount": 0.25,
+      "unit": "oz",
+      "notes": "For rinsing the glass"
+    }
+  ]
+}

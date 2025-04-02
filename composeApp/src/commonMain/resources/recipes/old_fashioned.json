@@ -1,0 +1,42 @@
+{
+  "name": "Old Fashioned",
+  "altName": "Whiskey Old Fashioned",
+  "favorite": false,
+  "about": "The Old Fashioned is one of the oldest known cocktails, dating back to the early 1800s. It represents the original definition of a 'cocktail': spirits, sugar, water, and bitters.",
+  "tags": ["classic", "whiskey", "ancestral", "built"],
+  "instructions": [
+    "Place sugar cube in an Old Fashioned glass",
+    "Saturate with bitters and add a small splash of water",
+    "Muddle until dissolved",
+    "Add ice (preferably a large clear cube)",
+    "Add whiskey",
+    "Stir gently to combine",
+    "Express orange peel over the drink and place in the glass"
+  ],
+  "notes": "The Old Fashioned can be made with bourbon or rye whiskey, depending on preference. Some bartenders also add a small splash of soda water.",
+  "alcoholic": true,
+  "glassware": "Old Fashioned Glass",
+  "garnish": "Orange Peel",
+  "ingredients": [
+    {
+      "name": "Bourbon or Rye Whiskey",
+      "amount": 2.0,
+      "unit": "oz"
+    },
+    {
+      "name": "Sugar Cube",
+      "amount": 1.0,
+      "unit": "cube"
+    },
+    {
+      "name": "Angostura Bitters",
+      "amount": 2.0,
+      "unit": "dashes"
+    },
+    {
+      "name": "Water",
+      "amount": 0.25,
+      "unit": "oz"
+    }
+  ]
+}
